@@ -2,32 +2,66 @@
 <html>
     <head>
         <meta charset=”utf-8” />
-        <title>My Homework 2 Page</title>
+        <title>TEST PAGE - VIZ TECH 1 & 2</title>
 
-        <!-- Style an element with the id "blueparagraph" -->
-        <style>
-            #blueparagraph{
-                color: blue;
-                font-size: 18px;
+        <!-- INTERNAL STYLING -->
+        <!-- <style>
+            p {
+                color: green;
+                font-size: 15px;
+                background-color: beige;
             }
-            #secondblueparagraph{
+            #blueline{
                 color: blue;
-                font-size: 18px;
+                font-size: 20px;
             }
-        </style>
+            .purpleline{
+                color: purple;
+                font-size: 28px;
+                background-color: white;
+            }
+        </style> -->
+
+        <!-- EXTERNAL STYLING -->
+        <link rel="stylesheet" href="external.css">
     </head>
 
     <body>
 
         <!-- Creates an SVG container with specified viewport size -->
-        <svg width="100" height="100">
+        <!-- <svg width="100" height="100">
             <rect x="0" y="50" width="40" height="40" fill="red"/>
-        </svg>
+        </svg> -->
+
+        <!-- Inline styling -->
+        <!-- <div style="color: purple; font-size: 20px">
+            This is an inline styling example
+        </div> -->
+
+        <!-- Internal styling -->
+        <!-- <p>
+            The internal styling for the p element applies.
+        </p> -->
+
+        <!-- ID attribute -->
+        <!-- <div id="blueline">
+            Applies the #blueline id attribute
+        </div> -->
+
+        <!-- Class attribute -->
+        <!-- <div class="purpleline">
+            Applies the .purpline class attribute
+        </div> -->
+
+        <!-- External styling -->
+
+        <!-- Conflict resolution between p{} style and id #blueline
+        When there are two different specified styles for an element, the declaration at the bottom wins
+        When there is a declaration not in conflict (e.g., background-color), then the styles merge. -->
+        <!-- <p id="blueline">This is a new line</p> -->
 
         <!-- First HTML element using the id "blueparagraph" -->
-        <p id=blueparagraph>Some blue text</p>
-        <!-- Second HTML element using the id "blueparagraph" -->
-        <h1 id=secondblueparagraph>Some blue headline</h1>
+        <!-- <p>Some blue line</p> -->
 
     </body>
 

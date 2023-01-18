@@ -1,0 +1,14 @@
+p {
+    color: green;
+    font-size: 15px;
+    background-color: beige;
+}
+#blueline{
+    color: blue;
+    font-size: 20px;
+}
+.purpleline{
+    color: purple;
+    font-size: 28px;
+    background-color: white;
+}
