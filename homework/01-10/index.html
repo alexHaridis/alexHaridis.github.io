@@ -2,12 +2,40 @@
 <html>
     <head>
         <meta charset=”utf-8” />
-        <title>My Figure Page</title>
+        <title>Displaying Images</title>
+
+        <style>
+            div {
+                text-align: center;
+            }
+            .space {
+                margin-top: 20px;
+            }
+            .button {
+                background-color: #4CAF50; /* Green */
+                /* border: none; */
+                padding: 12px 22px;
+                color: white;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 14px;
+            }
+            .button:hover {
+                background-color: white;
+                color: #4c9ed9;
+                border: 1px solid #111;
+            }
+        </style>
     </head>
     <body>
-        <div class="test header">
-            <h1>&nbspHere is an image:</h1>>
+        <div>
+            <h1>Here is an image:</h1>>
             <img src="figure-display.jpg" alt="homework 1 figure" style="margin:0px 0px;width:500px;height: 300px;">
+
+            <div class="space"></div>
+
+            <input type="button" class="button" value="Previous Page" onclick="history.back()">
         </div>
     </body>
 </html>

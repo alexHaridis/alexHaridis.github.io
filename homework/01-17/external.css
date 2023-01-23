@@ -1,14 +1,25 @@
-p {
-    color: green;
-    font-size: 15px;
-    background-color: beige;
+/* Add to any HTML element for extra top margin */
+.space {
+    margin-top: 20px;
 }
-#blueline{
-    color: blue;
-    font-size: 20px;
+
+div {
+    text-align: center;
 }
-.purpleline{
-    color: purple;
-    font-size: 28px;
+
+.button {
+    background-color: #4CAF50; /* Green */
+    /* border: none; */
+    padding: 12px 22px;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+}
+
+.button:hover {
     background-color: white;
+    color: #4c9ed9;
+    border: 1px solid #111;
 }

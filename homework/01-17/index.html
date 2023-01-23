@@ -2,65 +2,41 @@
 <html>
     <head>
         <meta charset=”utf-8” />
-        <title>TEST PAGE - VIZ TECH 1 & 2</title>
-
-        <!-- INTERNAL STYLING -->
-        <!-- <style>
-            p {
-                color: green;
-                font-size: 15px;
-                background-color: beige;
-            }
-            #blueline{
-                color: blue;
-                font-size: 20px;
-            }
-            .purpleline{
-                color: purple;
-                font-size: 28px;
-                background-color: white;
-            }
-        </style> -->
+        <title>Drawing SVG Shapes</title>
 
         <!-- EXTERNAL STYLING -->
-        <!-- <link rel="stylesheet" href="external.css"> -->
+        <link rel="stylesheet" href="external.css">
+
     </head>
 
     <body>
-        <!-- Creates an SVG container with specified viewport size -->
-        <!-- <svg width="100" height="100">
-            <rect x="70" y="50" width="40" height="40" fill="red"/>
-        </svg> -->
+        <div>
+            <h2>A Simple SVG Canvas</h2>>
 
-        <!-- Inline styling -->
-        <!-- <div style="color: purple; font-size: 20px">
-            This is an inline styling example
-        </div> -->
+            <!-- Creates an SVG container with specified viewport size -->
+            <svg width="200" height="280">
+                <!-- This is an external rectangle, marking the viewport -->
+                <rect x="0" y="0" width="200" height="280" stroke="grey" fill="transparent" stroke-width="2"/>
 
-        <!-- Internal styling -->
-        <!-- <p>
-            The internal styling for the p element applies.
-        </p> -->
+                <!-- Drawing basic shapes -->
+                <rect x="20" y="50" width="40" height="40" stroke="black" fill="transparent" stroke-width="5"/>
+                <rect x="100" y="10" rx="10" ry="10" width="30" height="30" stroke="black" fill="transparent" stroke-width="5"/>
+                <circle cx="125" cy="100" r="20" stroke="red" fill="transparent" stroke-width="5"/>
+                <ellipse cx="75" cy="125" rx="20" ry="10" stroke="green" fill="green" stroke-width="5"/>
+                <line x1="30" x2="80" y1="150" y2="180" stroke="orange" stroke-width="5"/>
+                <polyline points="90 150 95 160 100 155 105 180 110 175 115 190 120 175 125 190 130 185"
+                stroke="blue" fill="transparent" stroke-width="5"/>
+                <polygon points="50 200 55 220 70 220 60 230 65 235 50 235 35 235 40 220 30 210 45 210"
+                stroke="green" fill="transparent" stroke-width="5"/>
+                <path d="M90,230 Q110,205 120,230 T160,230" fill="none" stroke="blue" stroke-width="5"/>
+            </svg>
 
-        <!-- ID attribute -->
-        <!-- <div id="blueline">
-            Applies the #blueline id attribute
-        </div> -->
+            <div class="space"></div>
 
-        <!-- Class attribute -->
-        <!-- <div class="purpleline">
-            Applies the .purpline class attribute
-        </div> -->
+            <input type="button" class="button" value="Previous Page" onclick="history.back()">
 
-        <!-- External styling -->
-
-        <!-- Conflict resolution between p{} style and id #blueline
-        When there are two different specified styles for an element, the declaration at the bottom wins
-        When there is a declaration not in conflict (e.g., background-color), then the styles merge. -->
-        <!-- <p id="blueline">This is a new line</p> -->
-
-        <!-- First HTML element using the id "blueparagraph" -->
-        <!-- <p>Some blue line</p> -->
+            
+        </div>
     </body>
 
 </html>
