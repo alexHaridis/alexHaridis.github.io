@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset=”utf-8” />
+        <title>JavaScript</title>
+
+        <!-- Loads external CSS stylesheet -->
+        <link rel="stylesheet" href="style24.css">
+
+        <!-- JS script in the Head -->
+        <script>
+            // Strings, and concatenation
+            var myString = "Hello";
+            // Numbers have only one type and you can do arithmetic
+            var myNumber = 5;
+            myNumber = myNumber + 1.2;
+            // Special arithmetic is ++ (increment)
+            myNumber++;
+
+            // Boolean value: true or false, 0 or 1,
+            var myBoolean = 10 > 4;
+
+            // must open webbrowsers console
+            console.log(myString + " Sir!");
+            console.log(myNumber);
+
+            function plusTen(num) {
+                if (num > 10) {
+                    console.log("greater than 10");
+                }
+                else {
+                    console.log("less than 10");
+                    num = num + 10; // increment by 1
+                }
+                return num;
+            }
+            console.log(plusTen(4));
+        </script>
+    </head>
+
+    <body>
+        <div>
+            <h1>Hello, world!</h1>
+        </div>
+    </body>
+
+</html>

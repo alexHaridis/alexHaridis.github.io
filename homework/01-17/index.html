@@ -4,15 +4,38 @@
         <meta charset=”utf-8” />
         <title>Drawing SVG Shapes</title>
 
-        <link rel="stylesheet" href="style.css" type="text/css">
+        <style>
+            div {
+                text-align: center;
+            }
+            .button {
+                background-color: #4CAF50; /* Green */
+                /* border: none; */
+                padding: 12px 22px;
+                color: white;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                font-size: 14px;
+            }
+            .button:hover {
+                background-color: white;
+                color: #4c9ed9;
+                border: 1px solid #111;
+            }
+            .space {
+                margin-top: 20px;
+            }
+        </style>
     </head>
 
     <body>
         <div>
-            <h2>A Simple SVG Canvas</h2>>
+            <h1>A Simple SVG Canvas:</h1>
 
             <!-- Creates an SVG container with specified viewport size -->
             <svg width="200" height="280">
+
                 <!-- This is an external rectangle, marking the viewport -->
                 <rect x="0" y="0" width="200" height="280" stroke="grey" fill="transparent" stroke-width="2"/>
 
@@ -27,11 +50,13 @@
                 <polygon points="50 200 55 220 70 220 60 230 65 235 50 235 35 235 40 220 30 210 45 210"
                 stroke="green" fill="transparent" stroke-width="5"/>
                 <path d="M90,230 Q110,205 120,230 T160,230" fill="none" stroke="blue" stroke-width="5"/>
+
             </svg>
 
-            <div class="myspace"></div>
+            <div class="space"></div>
 
-            <input type="button" value="Previous Page" onclick="history.back()">
+            <!-- Creates an button to go to the previous page -->
+            <input type="button" class="button" value="Previous Page" onclick="history.back()">
         </div>
     </body>
 </html>
