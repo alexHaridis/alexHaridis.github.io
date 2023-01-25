@@ -1,4 +1,4 @@
-function myCustomFn() {
+function print() {
 
     console.log("First hello world!");
 
