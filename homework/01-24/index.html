@@ -9,14 +9,159 @@
 
         <!-- This is a script file -->
         <script>
-            
+
+            var num = 10;
+
+            // Print command: displaying/printing the value of variables
+            console.log(name);
+
+            // arithmetic operations
+            var addition = num + 10;
+
+            num = num + 10;
+
+            console.log(num);
+
+            // arithmetic operations within you return function of log
+            console.log(num + 10);
+
+            // Concatenation of stirngs of symbols
+            var name = "ARTG";
+
+            console.log(name + " 5330");
+
+            // Boolean values: True or False, Yes or No, 1 or 0
+
+            // Let's check if num is bigger than another value
+            var isBigger = num < 100;
+
+            console.log(isBigger);
+
+            // Increment operator
+            var i = 1;
+            i--; // shortcut for increasing value by one
+
+            console.log(i);
+
+            // Initializes an array called users, which has 4 items
+            // Array data types are 0-indexed
+            var users = ["Northeastern", 10, "ARTG", 100];
+
+            console.log(users[0]);
+
+            // Add a function within the object
+            // This object consists of key:value pairs
+            var newObject = {
+                name: "Holmes Building",
+                color: "Green",
+                street: "Huntington Avenue 700",
+                zip: 53719,
+                greetings: function(name) {
+                    console.log("Hey " + name + "!")
+                }
+            };
+
+            console.log(newObject.greetings("Alex"));
+
+            // Different types of functions
+
+            //A Function without an input variable
+            var printHello = function(){
+                console.log("Hello, world!");
+            }
+
+            printHello();
+
+            //A Function without with a string input
+            // Inside the parenthesis, pass a variable
+            var printName = function(name) {
+                console.log("Hello " + name);
+            }
+
+            printName("Sir");
+
+            // A function with a numerical return value
+            // Return: Do not add any lines after the return statement.
+            // The code after the return statement will not be read,
+            // and it will be considered an unreachable statement.
+            var addValues = function(val1, val2) {
+                // Add two values
+                let sum = val1 + val2;
+                // Return their sum
+                return sum;
+            }
+
+            var mySum = addValues(10, 10);
+
+            console.log(mySum);
+
+            var expValues = function(val) {
+                // Exponentiates given value using 2
+                let exp = val**2;
+                // Return their sum
+                return exp;
+            }
+
+            var myExp = expValues(10);
+
+            console.log(myExp);
+
+            // Conditional Statements are if/else statements
+            var condVal = 12;
+            if (condVal <= 10) {
+                console.log("This is not so bad.");
+            } else if (condVal == 15) {
+                console.log("This is bad.");
+            } else {
+                console.log("I don't know what to do.");
+            }
+
+            // Combine functions with conditional statements
+            function greaterThanTen(val) {
+
+                if (val > 10) {
+                    console.log("Yes!");
+                } else if (val == 10){
+                    console.log("No!");
+                } else {
+                    val++;
+                }
+
+                console.log(val);
+                return val;
+            }
+
+            var checker = greaterThanTen(100);
+            console.log(checker);
+
+            // Return square root
+            function returnsSq(val) {
+                if (isNaN(val)) {
+                    console.log("Not a number.")
+                } else {
+                    return Math.sqrt(val);
+                }
+                // a function without a return will
+                // print "undefined" in the console
+            }
+
+            console.log(returnsSq("abc"));
+
+            // Connecting JavaScript with HTML:
+            // changing content in HTML tags.
+
         </script>
     </head>
 
     <body>
         <div>
-            <h1 id="hello">Hello, world!</h1>
+            <h1 id="HL">Hello, world!</h1>
         </div>
+
+        <script>
+            // document.getElementById("HL").innerHTML = "Changed the Text";
+            document.getElementById("HL").style.color = "green";
+        </script>
     </body>
 
 </html>
