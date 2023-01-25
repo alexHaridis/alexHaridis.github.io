@@ -1,0 +1,16 @@
+.alignment {
+    text-align:center;
+}
+h2 {
+    margin:0px;
+    font-weight: normal;
+}
+.bottomgap {
+    margin-bottom: 50px;
+}
+.topgap {
+    margin-top: 80px;
+}
+.boldFont {
+    font-weight: bold;
+}

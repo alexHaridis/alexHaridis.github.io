@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset=”utf-8” />
+        <title>ARTG5430 - NUE</title>
+
+        <!-- Include D3 library from CDN:
+        The D3.js library can be imported by linking it directly into our
+        HTML page from the Content Delivery Network (CDN). The CDN is a 
+        network of servers where files are hosted and are delivered to a user
+        based on their geographic location. By using the CDN, we do not need to
+        download the D3 library package and place it locally in our project folder. -->
+        <script src="https://d3js.org/d3.v4.min.js"></script>
+
+        <!-- Loads external CSS stylesheet -->
+        <link rel="stylesheet" href="styles.css">
+    </head>
+
+    <body>
+        <h1 class="alignment topgap">ARTG 5430 - Visualization Technologies 2</h1>
+        <h2 class="alignment">Northeastern University</h2>
+        <h2 class="alignment bottomgap">College of Arts, Media, and Design</h2>
+        <div class="topgap"></div>
+        <p class="alignment boldFont">Empty Placeholder</p>
+
+        <!-- Write your JS and D3.js related code here -->
+        <script>
+            // Using D3 functions to read external data files. 
+            // Filetypes: 
+            // txt, csv, json
+            // See a full list of filetypes: https://github.com/d3/d3/blob/main/API.md#fetches-d3-fetch
+            
+            // PARSE FUNCTIONS
+
+            // We can pre-process data in different file types by
+            // providing a pre-processing function that we have defined
+            // to D3 functions.
+
+            // This generic parse function does nothing to the input and simply
+            // prints its content using the console log method.
+            function parseLOG(d) {
+                console.log(d);
+            }
+
+            // Reads a TXT file as a string and prints its content
+            d3.text("datasets/file.txt", parseLOG);
+
+            // Reads a CSV file in which values are comma-separated. Then, d3 converts
+            // it into an array of objects. Headers in the CSV file are used as the
+            // keys/names for the data objects. 
+            // NOTE 1: First row of the file is expected to be the key names for each data point.
+            // NOTE 2: All values associated with names have been converted into strings.
+            //         You can perform conversions of data types as needed (more below).
+
+            d3.csv("datasets/cities-sm.csv", parseLOG);
+
+            // Reads a JSON file: JavaScript Object Notation.
+            // The structure of this filetype is the same as JavaScript objects,
+            // defined with pairs of keys/names and values.
+            d3.json("datasets/countrycode-sm.json", parseLOG); 
+
+            // Alternative way of defining a parse function for a d3 method.
+            // This simply embeds the parse function within the d3.text method.
+            // and the same holds for the other d3.<file type> methods.
+
+            // NOTE: The previous approach, however, separates the parsing function from the method
+            // that calls it and so it helps readability and reuseability of functions.
+            d3.text("datasets/file.txt", function(data) {
+                console.log(data);
+            });
+        </script>
+    </body>
+
+</html>
