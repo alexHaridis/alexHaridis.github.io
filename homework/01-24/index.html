@@ -1,3 +1,6 @@
+<!-- This is the code we wrote during the live coding session on 01-24.
+Copy the code within the <script> tags to your own index.html file -->
+    
 <!DOCTYPE html>
 <html>
     <head>
@@ -7,13 +10,18 @@
         <!-- Loads external CSS stylesheet -->
         <link rel="stylesheet" href="style24.css">
 
+        <!-- Loading external js file -->
+        <script src="scripts/myFunctions.js"></script>
+
+        <script>myFunctions.myCustomFn()</script>
+
         <!-- This is a JavaScript script tag -->
         <script>
 
             var num = 10;
 
             // Print command: displaying/printing the value of variables
-            console.log(name);
+            console.log(num);
 
             // arithmetic operations
             var addition = num + 10;
@@ -167,7 +175,6 @@
 
             // prints all numbers from 10 to 0 
             console.log(decreasing(10));
-
         </script>
     </head>
 
@@ -179,6 +186,7 @@
         <!-- Connecting JavaScript with HTML:
         changing content in HTML tags. -->
         <script>
+            // myFunctions.customFn();
             document.getElementById("HL").innerHTML = "Changed the Text";
             document.getElementById("HL").style.color = "green";
         </script>
