@@ -12,7 +12,7 @@
         based on their geographic location. By using the CDN, we do not need to
         download the D3 library package and place it locally in our project folder. 
         
-        NOTE: We are using D3 version 7.-->
+        NOTE: We are using D3 version 7-->
 
         <script src="https://d3js.org/d3.v7.min.js"></script>
 
@@ -28,85 +28,7 @@
         <p class="alignment boldFont">Empty Placeholder</p>
 
         <!-- Write your JS and D3.js related code here -->
-        <script>
-            // Using D3 functions to read external data files. 
-            // Filetypes: 
-            // txt, csv, json
-            // See a full list of filetypes: https://github.com/d3/d3/blob/main/API.md#fetches-d3-fetch
-            
-            // PARSE FUNCTIONS FOR PRE-PROCESSING DATA
-
-            // We can pre-process data in different file types by
-            // providing a pre-processing function that we have defined
-            // to D3 functions.
-
-            // This generic parse function does nothing to the input and simply
-            // prints its content using the console log method.
-            function parseLOG(d) {
-                console.log(d);
-            }
-
-            // Reads a TXT file as a string and prints its content
-            // d3.text("datasets/file.txt", parseLOG);
-
-            // Reads a CSV file in which values are comma-separated. Then, d3 converts
-            // it into an array of objects. Headers in the CSV file are used as the
-            // keys/names for the data objects. 
-            // NOTE 1: First row of the file is expected to be the key names for each data point.
-            // NOTE 2: All values associated with names have been converted into strings.
-            //         You can perform conversions of data types as needed (more below).
-
-            d3.csv("datasets/cities-sm.csv", parseLOG);
-
-            // Reads a JSON file: JavaScript Object Notation.
-            // The structure of this filetype is the same as JavaScript objects,
-            // defined with pairs of keys/names and values.
-
-            // d3.json("datasets/countrycode-sm.json", parseLOG); 
-
-            // Alternative way of defining a parse function for a d3 method.
-            // This simply embeds the parse function within the d3.text method.
-            // and the same holds for the other d3.<file type> methods.
-
-            // NOTE: The previous approach, however, separates the parsing function from the method
-            // that calls it and so it helps readability and reuseability of functions.
-
-            // d3.text("datasets/file.txt", function(data) {
-            //     console.log(data);
-            // });
-
-            // Manipulating (Transforming) Data
-
-            // Parses the data by casting two values into numbers
-            // Uses the same CSV file as above (cities-sm.csv)
-            function parseNew(d) {
-                return {
-                    city: d.city,
-                    state: d.state,
-                    // The + sign is a unary operator
-                    population: +d.population,
-                    land_area: +d.land_area
-                };
-            }
-
-            // d3.csv("datasets/cities-sm.csv", parseNew).then(parseLOG);
-
-            function loopThroughArray(d) {
-                console.log(d);
-                // d.array.forEach(function(d){
-                //     console.log(d);
-                // });
-            }
-
-            // d3.csv("datasets/cities-sm.csv", loopThroughArray);
-
-            // function convertIntoNum(d) {
-            //     d.forEach(function(d) {
-            //         d.population = +d.population;
-            //         d.population = +d.population;
-            //     });
-            // }
-        </script>
+        <script src="scripts.js"></script>
     </body>
 
 </html>
