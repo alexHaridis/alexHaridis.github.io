@@ -10,6 +10,6 @@ function sumAB(A, B) {
 
 function randomPosition() {
 
-    return Math.random() * 100 + 50;
+    return Math.random() * 140 + 70;
     
 }

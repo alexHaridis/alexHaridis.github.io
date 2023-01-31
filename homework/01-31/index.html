@@ -1,3 +1,9 @@
+<!-- This is the code we wrote during the live coding session on 01-31.
+You may copy this into your own index.html and study it. 
+
+The <body> component of this html file consists of Part A, B, and C.
+-->
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -20,18 +26,23 @@
             <h1 id="HL">JS Libraries, <br> D3.js and Data Manipulation</br></h1>
         </div>
 
-        <p>This is an example</p>
-        <p>of using</p>
-        <p>d3.selectAll() on multiple p tags</p>
+        <!--  -->
+        <!-- PART A -->
+        <!--  -->
 
         <!-- Uses the function defined in myFunctions.js -->
         <script>
             console.log("The sum is: " + sumAB(1, 2));
+            console.log("Here is a random number: " + randomPosition());
         </script>
+
+        <!-- <p>This is an example</p>
+        <p>of using</p>
+        <p>d3.selectAll() on multiple p tags</p> -->
 
         <!-- Constructs five SVG circle elements -->
         <!-- <div> -->
-            <!-- <svg width="760" height="200"> -->
+            <!-- <svg width="760" height="200" id="static-circles"> -->
                 <!-- SVG viewport outline -->
                 <!-- <rect width="760" height="200" style="fill:white;stroke-width:1;stroke:black"/> -->
 
@@ -45,7 +56,12 @@
             <!-- </svg> -->
         <!-- </div> -->
 
+        <!--  -->
+        <!-- PART B -->
+        <!--  -->
+
         <!-- Basic D3.js functions: Selections, Changing attributes and styles, Mult-Selection -->
+
         <script>
             // Element selector that uses "id", analogous to document.getElementByID()
             var page_title = d3.select("#HL");
@@ -75,7 +91,7 @@
 
             // NOTE: Please see this nice summary https://bost.ocks.org/mike/selection/
 
-            d3.selectAll("p").style("text-align", "center").attr("class", "comicText");
+            // d3.selectAll("p").style("text-align", "center").attr("class", "comicText");
 
             // SHOW: .style("margin-top", "80px") it applies to all and increases the inbetween gap
 
@@ -100,12 +116,16 @@
             //     });
         </script>
 
+        <!--  -->
+        <!-- PART C -->
+        <!--  -->
+
         <!-- D3.js for animations: data arrays, enter/update/exit -->
 
         <div>
-            <svg width="200" height="200" id="circle-viz">
+            <svg width="300" height="200" id="data-viz">
                 <!-- SVG viewport outline -->
-                <!-- <rect width="760" height="200" style="fill:white;stroke-width:1;stroke:black"/> -->
+                <rect width="300" height="200" style="fill:white;stroke-width:1;stroke:black"/>
 
                 <!-- <g transform="translate(70, 70)"> -->
                     <!-- <circle/> -->
@@ -125,38 +145,44 @@
 
         <script>
 
-            // Data Arrays: a sequence of JavaScript objects written in a JSON-style format
+            // Data Array: A JavaScript object written in a JSON-style format
             // JavaScript Objects; https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Working_with_Objects
 
+            // For the following code, please also refer to this explanation:
+            // https://bost.ocks.org/mike/circles/ 
+        
+            // Data Array 1
             var data1 = [
                 {
                     country: "usa",
                     value: 12412341
                 },
                 {
-                    country: "mxn",
+                    country: "mex",
                     value: 24123410
                 }
             ];
 
+            // Data Array 2
             var data2 = [
                 {
                     country: "chn",
                     value: 32412341
                 },
                 {
-                    country: "mxn",
+                    country: "mex",
                     value: 24123410
                 }
             ];
 
+            // Data Array 3
             var data3 = [
                 {
                     country: "chn",
                     value: 65432343
                 },
                 {
-                    country: "mxn",
+                    country: "mex",
                     value: 12343241
                 },
                 {
@@ -167,7 +193,7 @@
 
             function drawCircles(dataArray) {
 
-                var circles = d3.select("#circle-viz").selectAll("circle")
+                var circles = d3.select("#data-viz").selectAll("circle")
                                 .data(dataArray, function(d) {
                                     return d.country;
                                 });
@@ -178,7 +204,7 @@
                             if (d.country == "usa") {
                                 return "blue";
                             }
-                            else if (d.country == "mxn") {
+                            else if (d.country == "mex") {
                                 return "green";
                             }
                             else if (d.country == "chn") {
