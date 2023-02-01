@@ -16,7 +16,6 @@ The <body> component of this html file consists of Part A, B, and C
 
         <!-- Loads an external JS file -->
         <!-- Note: you must replace src with your own path -->
-
         <script src="/homework/01-31/scripts/myFunctions.js"></script>
 
         <!-- Loads the D3.js library v7 -->
@@ -28,32 +27,41 @@ The <body> component of this html file consists of Part A, B, and C
             <h1 id="HL">JS Libraries, <br> D3.js and Data Manipulation</br></h1>
         </div>
 
-        <p>This is an illustration of</p>
-        <p>the D3 function</p>
-        <p>.selectALL for changing multiple elements</p>
-
         <!--  -->
         <!-- PART A -->
         <!--  -->
 
-        <!-- <script>
+        <!-- Uses the functions defined in myFunctions.js 
+             which is linked inside the head tag above. -->
 
-            // Calling functions written in a separate js file
-            var sm = sumAB(2, 5);
-            console.log(sm);
-
-        </script> -->
-
-        <!-- Uses the function defined in myFunctions.js -->
+        <script>
+            console.log("The sum is: " + sumAB(1, 2));
+            console.log("Here is a random number: " + randomPosition());
+        </script>
 
         <!--  -->
         <!-- PART B -->
         <!--  -->
 
-        <!-- Basic D3.js functions: Selections, Changing attributes and styles, Mult-Selection -->
+        <!-- Basic D3.js functions: Selections, Changing attributes and styles, Multi-Selection -->
 
-        <div>
+        <!-- This is a set of helper p tags that are used below to illustrate
+        how d3 can change multiple HTML elements at the same time. -->
+
+        <!-- <p>This is an example</p>
+        <p>of using</p>
+        <p>d3.selectAll() on multiple p tags</p> -->
+
+        <!-- The following block of code constructs five SVG circle shapes 
+             which are used below to illustrate how d3 can change multiple
+             SVG shapes at the same time. 
+            
+             NOTE: The first line draws a rectangle mainly to outline
+                   the svg canvas to make it more visible. -->
+
+        <!-- <div>
             <svg width="760" height="200" id="static-circles">
+                
                 <rect width="760" height="200" style="fill:white;stroke-width:1;stroke:black"/>
 
                 <g transform="translate(70, 70)">
@@ -64,43 +72,242 @@ The <body> component of this html file consists of Part A, B, and C
                     <circle cx = "480"/>
                 </g>
             </svg>
-        </div>
+        </div> -->
+
+        <!-- The following code within the script tag illustrates how D3
+        can be used for selections, changing styles and attributes, and multi-selections. -->
 
         <script>
-            var page_title = d3.select('#HL');
+            // Element selector that uses "id", analogous to document.getElementByID()
+            var page_title = d3.select("#HL");
+            
+            // Changing individual element styles
 
-            // Change individual element styles
-            // (attribute, value)
             page_title.style("color", "blue");
             page_title.style("font-size", "60px");
 
-            // Chain multiple changes one after the other
-            page_title.style("color", "green")
-                .style("background-color", "pink")
-                .style("font-size", "50px");
+            // Chaining styles one after the other
+
+            page_title.style("color", "blue")
+                .style("background-color", "powderblue")
+                .style("font-size", "60px");
 
             // Changing element attributes
-            // Assign a new class to the h1 tag
+
+            // NOTE: You can also chain .attr with .style, one after the other like above
+
+            // Here we assign a new class to the h1 tag (see style31.css file)
+            // See documentation for tag specific attributes: https://www.tutorialrepublic.com/html-reference/html-headings-tag.php
+            // and global attributes: https://www.tutorialrepublic.com/html-reference/html5-global-attributes.php
 
             page_title.attr("class", "comicText");
 
-            // Change multiple element styles or attributes
+            // Multi-Selection: Select multiple elements on a page and
+            // change all of their properties at the same time using the
+            // d3.selectAll() function.
 
-            d3.selectAll("p").style("text-align", "center")
+            // NOTE: Please see this nice summary of selections in D3: 
+	        // 	https://bost.ocks.org/mike/selection/
+
+            d3.selectAll("p")
+                .style("text-align", "center")
                 .attr("class", "comicText");
 
-            d3.selectAll("p").style("margin-top", "80px");
+            // SHOW: .style("margin-top", "80px") it applies to all and increases the inbetween gap
 
+            // Multi-Selection and chaining on SVG elements (see above for the SVG circles)
+
+            // Notice the syntax below. You don't have to put everything in the same line
+            // as long as the semantics are in place, i.e., you use the dot notation properly.
+
+            d3.selectAll("circle")
+                .style("fill", "orange")
+                .attr("cy", "40")
+                .attr("r", "40");
+            
+            // Adding user interaction on SVG elements using .selectAll()
+
+            d3.selectAll("circle")
+                .style("fill", "orange")
+                .attr("cy", "40")
+                .attr("r", "40")
+                .on("click", function(e, d) {
+                    d3.select(this).style("fill", "red");
+                });
         </script>
 
         <!--  -->
         <!-- PART C -->
         <!--  -->
 
-    
-
         <!-- D3.js for animations: data arrays, enter/update/exit -->
 
+        <!-- The following creates an SVG container that will be populated with circles
+        using a separate function (see below). Again, the first line creates a rectangle 
+        in order to outline the container for better visibility. -->
+
+        <div>
+            <svg width="300" height="200" id="data-viz">
+                <!-- SVG viewport outline -->
+                <rect width="300" height="200" style="fill:white;stroke-width:1;stroke:black"/>
+            </svg>
+        </div>
+
+        <div>
+            <button onclick="drawCircles(data1)">Data 1</button>
+            <button onclick="drawCircles(data2)">Data 2</button>
+            <button onclick="drawCircles(data3)">Data 3</button>
+        </div>
+
+        <script>
+
+            // Data Array: A JavaScript object written in a JSON-style format
+            // JavaScript Objects; https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Working_with_Objects
+
+            // For the following animation with three circles, please also refer to this explanation:
+            // https://bost.ocks.org/mike/circles/ 
+        
+            // Data Array 1
+            var data1 = [
+                {
+                    country: "usa",
+                    value: 12412341
+                },
+                {
+                    country: "mex",
+                    value: 24123410
+                }
+            ];
+
+            // Data Array 2
+            var data2 = [
+                {
+                    country: "chn",
+                    value: 32412341
+                },
+                {
+                    country: "mex",
+                    value: 24123410
+                }
+            ];
+
+            // Data Array 3
+            var data3 = [
+                {
+                    country: "chn",
+                    value: 65432343
+                },
+                {
+                    country: "mex",
+                    value: 12343241
+                },
+                {
+                    country: "usa",
+                    value: 25342566
+                }
+            ];
+
+            function drawCircles(dataArray) {
+
+                // You select the SVG container initialized above using the #data-viz id.
+                // In the beginning there are no circles, but you populate the container
+                // with circles using the .join method's "entering" function just below.
+                // Note, the method .data is D3's way of binding data values to SVG elements
+                // (or other possible elements). Here, we need to specifically bind the 
+                // data value "country" that is why we use a special function for that.
+
+                var circles = d3.select("#data-viz")
+                        .selectAll("circle")
+                        .data(dataArray, function(d) {
+                            return d.country;
+                        });
+
+                // There is a difference between V4 of D3 and below and V5 and abobe.
+                // In particular, for V4 and below you would need to specifically use
+                // D3 selector's .enter and .exit methods for "entering" and "exiting"
+                // states. However, in V5 and above we are simply using the .join method
+                // that hides the details for .enter and .exit making it more streamlined
+                // from a user's perspective. You still need to implement the "entering"
+                // and "exiting" states, but you do that using functions as shown below.
+
+                // More information: https://observablehq.com/@d3/selection-join
+                //                   https://www.d3indepth.com/enterexit/
+                
+                circles.join(
+                    // Entering Circles
+                    function(enter) {
+                        return enter.append("circle")
+                            .attr("fill", function(d) {
+                                if (d.country == "usa") {
+                                    return "blue";
+                            }
+                                else if (d.country == "mex") {
+                                    return "green";
+                                }
+                                else if (d.country == "chn") {
+                                    return "red";
+                                }
+                            })
+                            .attr("id", function(d) {
+                                d.country;
+                            })
+                            .attr("cy", "100")
+                            .attr("cx", randomPosition)
+                            .attr("r", "0")
+                            .transition().duration(1000)
+                            .attr("r", "25");
+                    },
+                    // Updating Circles
+                    function(update) {
+                        return update.transition().duration(1000)
+                            .attr("cx", randomPosition);
+                    },
+                    // Exiting Circles
+                    function(exit) {
+                        exit.transition().duration(1000)
+                            .attr("r", "0")
+                            .remove();
+                    }
+                )
+
+                // The following is an implementation of "entering" and "exiting"
+                // states using the .enter and .exit methods for D3 applications
+                // using V4 and below.
+                
+                // circles.enter().append("circle")
+                //        .attr("fill", function(d) {
+                //             if (d.country == "usa") {
+                //                 return "blue";
+                //             }
+                //             else if (d.country == "mex") {
+                //                 return "green";
+                //             }
+                //             else if (d.country == "chn") {
+                //                 return "red";
+                //             }
+                //         })
+                //         .attr("id", function(d) {
+                //             return d.country;
+                //         })
+                //         .attr("cy", "100")
+                //         .attr("cx", randomPosition)
+                //         .attr("r", "0")
+                //         .transition().duration(1000)
+                //         .attr("r", "25");
+                
+                // Updating Circles
+                // circles
+                //     .transition().duration(1000)
+                //     .attr("cx", randomPosition);
+
+                // Exiting Circles
+                // circles.exit()
+                //        .transition().duration(1000)
+                //        .attr("r", "0")
+                //        .remove();
+            }
+
+        </script>
     </body>
 
 </html>
