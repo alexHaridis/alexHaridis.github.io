@@ -53,6 +53,23 @@ The <body> component of this html file consists of Part A, B, and C
         <!-- Basic D3.js functions: Selections, Changing attributes and styles, Mult-Selection -->
 
         <script>
+            <div>
+                <svg width="760" height="200" id="static-circles">
+                    <!-- SVG viewport outline -->
+                    <rect width="760" height="200" style="fill:white;stroke-width:1;stroke:black"/>
+
+                    <g transform="translate(70, 70)">
+                        <circle/>
+                        <circle cx = "120"/>
+                        <circle cx = "240"/>
+                        <circle cx = "360"/>
+                        <circle cx = "480"/>
+                    </g>
+                </svg>
+            </div>
+        </script>
+
+        <script>
             var page_title = d3.select('#HL');
 
             // Change individual element styles
@@ -82,6 +99,8 @@ The <body> component of this html file consists of Part A, B, and C
         <!--  -->
         <!-- PART C -->
         <!--  -->
+
+    
 
         <!-- D3.js for animations: data arrays, enter/update/exit -->
 
