@@ -1,0 +1,56 @@
+* {
+  box-sizing: border-box;
+}
+
+
+html, body {
+  margin: 0px;
+  padding: 0px;
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+h1 {
+  text-align: center;
+}
+
+#chart--container {
+  width: 100%;
+}
+
+#chart {
+  width: 80%;
+  float: left;
+  height: 80vh;
+  position: relative;
+}
+
+#legend {
+  width: 20%;
+  float: right;
+}
+
+.legend--label {
+  font-size: 12pt;
+  dominant-baseline: central;
+}
+
+.axis--label{
+  font-size: 16pt;
+  font-weight: bold;
+  text-anchor: middle;
+}
+
+.axis {
+  font-size: 10pt;
+}
+
+.tooltip {
+  position: absolute;
+  visibility: hidden;
+  top: 0px;
+  left: 0px;
+
+  padding: 2px;
+  background-color: rgba(255,255,255,0.8);
+  font-size: 11pt;
+}
