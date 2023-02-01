@@ -1,7 +1,8 @@
 <!-- This is the code we wrote during the live coding session on 01-31.
-You may copy this into your own index.html and study it. 
+You may copy parts of this into your own index.html and study the code. 
 
-The <body> component of this html file consists of Part A, B, and C.
+The <body> component of this html file consists of Part A, B, and C
+    involving different script tags.
 -->
 
 <!DOCTYPE html>
@@ -15,6 +16,7 @@ The <body> component of this html file consists of Part A, B, and C.
 
         <!-- Loads an external JS file -->
         <!-- Note: you must replace src with your own path -->
+
         <script src="/homework/01-31/scripts/myFunctions.js"></script>
 
         <!-- Loads the D3.js library v7 -->
@@ -26,35 +28,23 @@ The <body> component of this html file consists of Part A, B, and C.
             <h1 id="HL">JS Libraries, <br> D3.js and Data Manipulation</br></h1>
         </div>
 
+        <p>This is an illustration of</p>
+        <p>the D3 function</p>
+        <p>.selectALL for changing multiple elements</p>
+
         <!--  -->
         <!-- PART A -->
         <!--  -->
 
+        <!-- <script>
+
+            // Calling functions written in a separate js file
+            var sm = sumAB(2, 5);
+            console.log(sm);
+
+        </script> -->
+
         <!-- Uses the function defined in myFunctions.js -->
-        <script>
-            console.log("The sum is: " + sumAB(1, 2));
-            console.log("Here is a random number: " + randomPosition());
-        </script>
-
-        <!-- <p>This is an example</p>
-        <p>of using</p>
-        <p>d3.selectAll() on multiple p tags</p> -->
-
-        <!-- Constructs five SVG circle elements -->
-        <!-- <div> -->
-            <!-- <svg width="760" height="200" id="static-circles"> -->
-                <!-- SVG viewport outline -->
-                <!-- <rect width="760" height="200" style="fill:white;stroke-width:1;stroke:black"/> -->
-
-                <!-- <g transform="translate(70, 70)"> -->
-                    <!-- <circle/> -->
-                    <!-- <circle cx = "120"/> -->
-                    <!-- <circle cx = "240"/> -->
-                    <!-- <circle cx = "360"/> -->
-                    <!-- <circle cx = "480"/> -->
-                <!-- </g> -->
-            <!-- </svg> -->
-        <!-- </div> -->
 
         <!--  -->
         <!-- PART B -->
@@ -63,57 +53,30 @@ The <body> component of this html file consists of Part A, B, and C.
         <!-- Basic D3.js functions: Selections, Changing attributes and styles, Mult-Selection -->
 
         <script>
-            // Element selector that uses "id", analogous to document.getElementByID()
-            var page_title = d3.select("#HL");
-            
-            // Changing individual element styles
+            var page_title = d3.select('#HL');
 
-            // page_title.style("color", "blue");
-            // page_title.style("font-size", "60px");
+            // Change individual element styles
+            // (attribute, value)
+            page_title.style("color", "blue");
+            page_title.style("font-size", "60px");
 
-            // Chaining styles one after the other
-
-            // page_title.style("color", "blue").style("background-color", "powderblue").style("font-size", "60px");
+            // Chain multiple changes one after the other
+            page_title.style("color", "green")
+                .style("background-color", "pink")
+                .style("font-size", "50px");
 
             // Changing element attributes
+            // Assign a new class to the h1 tag
 
-            // NOTE: You can also chain .attr with .style, one after the other like above
+            page_title.attr("class", "comicText");
 
-            // Here we assign a new class to the h1 tag (see style31.css file)
-            // See documentation for tag specific attributes: https://www.tutorialrepublic.com/html-reference/html-headings-tag.php
-            // and global attributes: https://www.tutorialrepublic.com/html-reference/html5-global-attributes.php
+            // Change multiple element styles or attributes
 
-            // page_title.attr("class", "comicText");
+            d3.selectAll("p").style("text-align", "center")
+                .attr("class", "comicText");
 
-            // Multi-Selection: Select multiple elements on a page and
-            // change all of their properties at the same time using the
-            // d3.selectAll() function.
+            d3.selectAll("p").style("margin-top", "80px");
 
-            // NOTE: Please see this nice summary https://bost.ocks.org/mike/selection/
-
-            // d3.selectAll("p").style("text-align", "center").attr("class", "comicText");
-
-            // SHOW: .style("margin-top", "80px") it applies to all and increases the inbetween gap
-
-            // Multi-Selection and chaining on SVG elements (see above for the SVG circles)
-
-            // Notice the syntax below. You don't have to put everything in the same line
-            // as long as the semantics are in place, i.e., you use the dot notation properly.
-
-            // d3.selectAll("circle")
-            //     .style("fill", "orange")
-            //     .attr("cy", "40")
-            //     .attr("r", "40");
-            
-            // Adding user interaction on SVG elements using .selectAll()
-
-            // d3.selectAll("circle")
-            //     .style("fill", "orange")
-            //     .attr("cy", "40")
-            //     .attr("r", "40")
-            //     .on("click", function(e, d) {
-            //         d3.select(this).style("fill", "red");
-            //     });
         </script>
 
         <!--  -->
@@ -122,117 +85,6 @@ The <body> component of this html file consists of Part A, B, and C.
 
         <!-- D3.js for animations: data arrays, enter/update/exit -->
 
-        <div>
-            <svg width="300" height="200" id="data-viz">
-                <!-- SVG viewport outline -->
-                <rect width="300" height="200" style="fill:white;stroke-width:1;stroke:black"/>
-
-                <!-- <g transform="translate(70, 70)"> -->
-                    <!-- <circle/> -->
-                    <!-- <circle cx = "120"/> -->
-                    <!-- <circle cx = "240"/> -->
-                    <!-- <circle cx = "360"/> -->
-                    <!-- <circle cx = "480"/> -->
-                <!-- </g> -->
-            </svg>
-        </div>
-
-        <div>
-            <button onclick="drawCircles(data1)">Data 1</button>
-            <button onclick="drawCircles(data2)">Data 2</button>
-            <button onclick="drawCircles(data3)">Data 3</button>
-        </div>
-
-        <script>
-
-            // Data Array: A JavaScript object written in a JSON-style format
-            // JavaScript Objects; https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Working_with_Objects
-
-            // For the following code, please also refer to this explanation:
-            // https://bost.ocks.org/mike/circles/ 
-        
-            // Data Array 1
-            var data1 = [
-                {
-                    country: "usa",
-                    value: 12412341
-                },
-                {
-                    country: "mex",
-                    value: 24123410
-                }
-            ];
-
-            // Data Array 2
-            var data2 = [
-                {
-                    country: "chn",
-                    value: 32412341
-                },
-                {
-                    country: "mex",
-                    value: 24123410
-                }
-            ];
-
-            // Data Array 3
-            var data3 = [
-                {
-                    country: "chn",
-                    value: 65432343
-                },
-                {
-                    country: "mex",
-                    value: 12343241
-                },
-                {
-                    country: "usa",
-                    value: 25342566
-                }
-            ];
-
-            function drawCircles(dataArray) {
-
-                var circles = d3.select("#data-viz").selectAll("circle")
-                                .data(dataArray, function(d) {
-                                    return d.country;
-                                });
-                
-                // Entering Circles
-                circles.enter().append("circle")
-                       .attr("fill", function(d) {
-                            if (d.country == "usa") {
-                                return "blue";
-                            }
-                            else if (d.country == "mex") {
-                                return "green";
-                            }
-                            else if (d.country == "chn") {
-                                return "red";
-                            }
-                        })
-                        .attr("id", function(d) {
-                            return d.country;
-                        })
-                        .attr("cy", "100")
-                        .attr("cx", randomPosition)
-                        .attr("r", "0")
-                        .transition().duration(1000)
-                        .attr("r", "25");
-                
-                // Updating Circles
-                circles
-                    .transition().duration(1000)
-                    .attr("cx", randomPosition);
-
-                // Exiting Circles
-                circles.exit()
-                       .transition().duration(1000)
-                       .attr("r", "0")
-                       .remove();
-            }
-
-        </script>
     </body>
 
 </html>
