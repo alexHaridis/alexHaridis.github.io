@@ -245,6 +245,7 @@ d3.csv("./data/gapminder.csv").then(function(data) {
         `points` above (what is in that selection?)
     */
 
+
     points.on("mouseover", function(e, d) {
 
         // Update style and position of the tooltip div;
@@ -270,8 +271,8 @@ d3.csv("./data/gapminder.csv").then(function(data) {
             .html(`<p><b>${d.country}</b><br><em>${d.continent}</em><br>#: ${displayValue}</p>`);
 
         // Optionally, visually highlight the selected circle
-        // points.attr("opacity", 0.1);
-        // d3.select(this).attr("opacity", 1).raise();
+        points.attr("opacity", 0.1);
+        d3.select(this).attr("opacity", 1).raise();
 
     }).on("mouseout", function() {
 
@@ -279,7 +280,7 @@ d3.csv("./data/gapminder.csv").then(function(data) {
         tooltip.style("visibility", "hidden");
 
         // Reset the circles' appearance back to original
-        // points.attr("opacity", 1);
+        points.attr("opacity", 1);
 
     });
 
@@ -308,10 +309,6 @@ d3.csv("./data/gapminder.csv").then(function(data) {
     <div> on the page is being controlled by the CSS
     */
 
-    // const legendWidth = document.querySelector("#legend").clientWidth;
-    // const legendMargin = 25;
-    // const legendSpacing = 50;
-    // const legendHeight = document.querySelector("#legend").clientHeight;
     const legendWidth = document.querySelector("#legend").clientWidth;
     const legendHeight = 150;
     const legendMargin = 20;
@@ -386,6 +383,8 @@ d3.csv("./data/gapminder.csv").then(function(data) {
         return d.continent;
 
     });
+
+    console.log(allCategories);
 
     // And expect to see an array of:
     // "Asia", "Europe", "Africa", "Americas", "Oceania"

@@ -38,13 +38,13 @@ d3.text("datasets/file.txt").then(parseLOG);;
 // NOTE 2: All values associated with names have been converted into strings.
 //         You can perform conversions of data types as needed (more below).
 
-d3.csv("datasets/cities-sm.csv").then(parseLOG);
+// d3.csv("datasets/cities-sm.csv", yourFunction).then(parseLOG);
 
 // Reads a JSON file: JavaScript Object Notation.
 // The structure of this filetype is the same as JavaScript objects,
 // defined with pairs of keys/names and values.
 
-// d3.json("datasets/countrycode-sm.json").then(parseLOG);
+d3.json("datasets/countrycode-sm.json").then(parseLOG);
 
 // Alternative way of defining a parse function for a d3 method.
 // This simply embeds the parse function within the d3.text method.
@@ -53,14 +53,24 @@ d3.csv("datasets/cities-sm.csv").then(parseLOG);
 // NOTE: The previous approach, however, separates the parsing function from the method
 // that calls it and so it helps readability and reuseability of functions.
 
-// d3.text("datasets/file.txt", function(data) {
-//     console.log(data);
-// });
+d3.text("datasets/file.txt", function(data) {
+    console.log(data);
+});
 
 // Manipulating (Transforming) Data
 
-// Parses the data by casting two values into numbers
-// Uses the same CSV file as above (cities-sm.csv)
+
+// We can preprocess the data directly with d3.csv(), so that
+// before the data are loaded, we can do the following kinds of things:
+//     - Rename columns to more user-friendly names
+//     - Select only a slice of columns to include
+//     - Coerce values to different types (e.g., string to number)
+//     - Calculate new values and columns
+
+// To do this preprocessing, we supply a function expression as the
+// second argument to d3.csv(), e.g.,
+
+//     d3.csv("./path/to/data.csv", function() { ... }).then( ... )
 
 function parseCSVIntoNum(d) {
     // return a structure of objects:
@@ -75,7 +85,8 @@ function parseCSVIntoNum(d) {
     };
 }
 
-// d3.csv("datasets/cities-sm.csv", parseCSVIntoNum).then(parseLOG);
+d3.csv("datasets/cities-sm.csv", parseCSVIntoNum).then(parseLOG);
+
 
 d3.csv("datasets/cities-sm.csv").then(function(data){
     // Loads the csv file, and converts it into an array of objects
