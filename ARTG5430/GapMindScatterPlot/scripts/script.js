@@ -319,7 +319,8 @@ d3.csv("./data/gapminder.csv").then(function(data) {
         .attr("height", legendHeight)
         .attr("width", legendWidth);
 
-    //Visualize the new SVG canvas
+    //Optionally:
+    // Visualize the outline of the SVG canvas with a rectangle
 
     // colorLegend.append("rect")
     //     .attr("width", legendWidth)
@@ -332,10 +333,17 @@ d3.csv("./data/gapminder.csv").then(function(data) {
         we want to display a legend, using ARRAY.forEach().
 
         Here, we'll create a color legend that shows what
-        category each color represents.
+        category each color represents, i.e., what continent.
 
         So, we'll iterate over each of the values in
         the array named `continents`
+
+        Note: Here, we are manually specifying our categories.
+        We were able to perform an exploratory analysis of this
+        data set and figure out the distinct continents. However,
+        it is important to have an automated method of extracting
+        unique categories from a dataset and one such method is
+        given below.
     */
 
     const continents = ["Asia", "Europe", "Africa", "Americas", "Oceania"];
@@ -396,7 +404,7 @@ d3.csv("./data/gapminder.csv").then(function(data) {
 
     // Here is a method to do it that uses a data structure called "Set",
     // and then spreads the values into a flat array.
-    // (Why do we use Set ?)
+    // (Why do we use Set?)
 
     // Spread operator: 
     // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax

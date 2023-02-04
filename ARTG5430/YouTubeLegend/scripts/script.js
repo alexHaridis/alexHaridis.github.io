@@ -354,6 +354,4 @@ d3.csv("./data/2021-youtube-trending-videos_entertainment-gaming-music.csv", par
             .text(`${displayCount} Comments`);
     });
 
-
-
 });
