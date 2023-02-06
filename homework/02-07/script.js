@@ -25,9 +25,9 @@ Dependents: D3, file.txt, cities-sm.csv, countrycode-sm.json
 
 
 // To load data, we use D3's built-in methods:
-// d3.text()
-// d3.csv()
-// d3.json()
+// 	d3.text()
+// 	d3.csv()
+// 	d3.json()
 
 // After we load data from an external source, we can print them in the console 
 // or use them for a visualization.

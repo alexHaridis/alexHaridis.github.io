@@ -347,6 +347,7 @@ d3.csv("./data/2021-youtube-trending-videos_entertainment-gaming-music.csv", par
         we determine the value associated with it and
         whether it is currently checked or unchecked
         */
+       
         let isChecked = d3.select(this).property("checked");
         let thisCategory = d3.select(this).property("value");
 
@@ -355,6 +356,7 @@ d3.csv("./data/2021-youtube-trending-videos_entertainment-gaming-music.csv", par
         select the circles whose category matches the
         value of the checkbox that was just checked
         */
+
         let selection = points.filter(function(d) {
             return d.category === thisCategory;
         });
@@ -369,12 +371,17 @@ d3.csv("./data/2021-youtube-trending-videos_entertainment-gaming-music.csv", par
                 all invisible by setting their opacity
                 to 0 (if checkbox is unchecked)
         */
+
         if (isChecked == true) {
+
             selection.attr("opacity", 1)
             .attr("pointer-events", "all");
+
         } else {
+
             selection.attr("opacity", 0)
             .attr("pointer-events", "none");
+
         }
 
         /*
