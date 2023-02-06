@@ -1,0 +1,52 @@
+/* import fonts from google fonts*/
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,400;1,500;1,700&display=swap'); 
+
+/* default to border-box */
+
+html {
+  box-sizing: border-box;
+  font-size: 16px;
+  font-family: 'Josefin Sans', sans-serif;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+/* adjust typography defaults */
+body {
+  margin: 1rem;
+  font-family: sans-serif;
+  line-height: 1.5;
+  background-color: lightgreen;
+  color: black;
+}
+
+/* setup font imported from google fonts*/
+h1 {
+    font-size: 4rem;
+    font-family: 'Josefin Sans', sans-serif;
+    font-weight: 700;
+    font-style: italic;
+    text-decoration: underline
+  }
+
+p {
+    font-size: 1rem;
+    font-family: 'Josefin Sans', sans-serif;
+    font-weight: 400;
+  }
+
+#chart {
+    width:1000px;
+    height:800px;
+    margin: 0px;
+}
+
+.axis{
+  stroke-width: 1;
+}
+
+.axisLabel{
+  stroke-width: 1;
+}

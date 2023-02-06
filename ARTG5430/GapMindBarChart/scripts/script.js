@@ -126,7 +126,8 @@ d3.csv("./data/gapminder.csv").then(function(data) {
     const yScale = d3.scaleLinear()
         .domain([50, lifeExp.max])
         .range([height-margin.bottom, margin.top]);
-
+    
+    console.log(yScale);
 
     /*
     DRAW AXES
@@ -172,6 +173,7 @@ d3.csv("./data/gapminder.csv").then(function(data) {
             attribute works.
 
     */
+
     const points = svg.selectAll("rect")
         .data(filtered_data)
         .enter()
