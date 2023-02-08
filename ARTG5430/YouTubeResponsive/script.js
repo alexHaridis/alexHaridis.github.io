@@ -80,7 +80,9 @@ d3.csv("./data/2021-youtube-trending-videos_entertainment-gaming-music.csv", par
 
 
     // We probably don't want to use these values anymore -- their aspect ratio
-    // will be unpredictable!
+    // will be unpredictable! (it will change arbitrarily with different devices
+    // and also with different resizings of the viewport from a user).
+
     // const width = document.querySelector("#chart").clientWidth;
     // const height = document.querySelector("#chart").clientHeight;
 
@@ -96,8 +98,6 @@ d3.csv("./data/2021-youtube-trending-videos_entertainment-gaming-music.csv", par
         // .attr("height", height);
         .attr("viewBox", `0 0 ${width} ${height}`)
         .attr("preserveAspectRatio", "xMidYMid meet");
-
-
 
     /*
     DETERMINE MIN AND MAX VALUES OF VARIABLES
@@ -250,6 +250,7 @@ d3.csv("./data/2021-youtube-trending-videos_entertainment-gaming-music.csv", par
     of the SVG canvas (and browser window).
 
     */
+
     let tw = svg.node().clientWidth;
     let th = svg.node().clientHeight;
     let sx = tw / width;
@@ -397,8 +398,7 @@ d3.csv("./data/2021-youtube-trending-videos_entertainment-gaming-music.csv", par
 
 
         /*
-        This section is part of your final task
-        in the JavaScript exploration:
+        This section is part of your Assignment 4:
 
         Inside the window resize event handler, implement a breakpoint using JavaScript. 
         In the code, you will find a variable named windowWidth that captures the 
@@ -410,9 +410,9 @@ d3.csv("./data/2021-youtube-trending-videos_entertainment-gaming-music.csv", par
         might change the range of the rScale() function to manipulate the relative size of 
         circles at smaller screen sizes. Or, you might apply a different CSS class to the 
         visualization's axes to change the size and scale of tick labels at different 
-        screen sizes. Anything is fine!
-
+        screen sizes. Anything is fine.
         */
+
         let windowWidth = window.innerWidth;
 
         if(windowWidth > 1000) {

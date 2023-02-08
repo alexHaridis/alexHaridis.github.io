@@ -34,7 +34,7 @@ h1 {
 
 .legend--label {
   font-size: 12pt;
-  dominant-baseline: central;
+  /* dominant-baseline: central; */
 }
 
 .axis--label{
@@ -59,13 +59,61 @@ h1 {
   font-size: 11pt;
 }
 
+
 /* MEDIA QUERIES */
 
-@media only screen and (max-width: 800) {
+
+/* Examples */
+
+/* @media screen and (max-width: 800px) {
+
+  h1 {
+    text-align: center;
+    color: green;
+  }
+
+  body {
+    background-color: bisque;
+  }
+
+} */
+
+/* Opposite behavior as above */
+
+/* @media screen and (min-width: 800px) {
+
+  h1 {
+    text-align: center;
+    color: green;
+  }
+
+  body {
+    background-color: bisque;
+  }
+
+} */
+
+/* body {
+  background-color: aqua;
+} */
+
+/* IN CLASS QUESTION-ANSWERING */
+
+/* Examine the following CSS media queries and CSS rules inside of them.
+Answer the following questions (i.e., add comments) based on your understanding: 
+
+1. What are the conditions used to define these media queries? What breakpoints 
+do they correspond to in terms of screen sizes?
+
+2. Examine the first media query below (max-width:800px). Inside this media query,
+something specific is happening to the flex layout of the page. What is it?
+How does this relate to the visual layout of the page when you resize the window? */
+
+
+/* @media only screen and (max-width: 800) {
 
   #chart--container {
     flex-direction: column;
-    
   }
 
   #chart {
@@ -91,7 +139,7 @@ h1 {
   h2 {
     font-size: 14pt;
   }
-
+  
 }
 
 @media only screen and (max-width: 500) {
@@ -100,4 +148,4 @@ h1 {
     max-width: 150px;
   }
 
-}
+} */
