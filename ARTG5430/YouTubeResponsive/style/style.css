@@ -1,0 +1,103 @@
+* {
+  box-sizing: border-box;
+}
+
+
+html, body {
+  margin: 0px;
+  padding: 0px;
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+h1 {
+  text-align: center;
+}
+
+#chart--container {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+
+#chart {
+  width: 80%;
+  flex: 1 0 80%;
+  max-height: 80vh;
+  position: relative;
+}
+
+#legend {
+  width: 20%;
+  flex: 1 0 20%;
+  display: flex;
+  flex-direction: column;
+}
+
+.legend--label {
+  font-size: 12pt;
+  dominant-baseline: central;
+}
+
+.axis--label{
+  font-size: 16pt;
+  font-weight: bold;
+  text-anchor: middle;
+}
+
+.axis {
+  font-size: 10pt;
+}
+
+.tooltip {
+  position: absolute;
+  visibility: hidden;
+  top: 0px;
+  left: 0px;
+  pointer-events: none;
+
+  padding: 2px;
+  background-color: rgba(255,255,255,0.8);
+  font-size: 11pt;
+}
+
+/* MEDIA QUERIES */
+
+@media only screen and (max-width: 800px) {
+
+  #chart--container {
+    flex-direction: column;
+    
+  }
+
+  #chart {
+    width: 100%;
+  }
+
+  #legend h2 {
+    flex: 1 0 100%;
+  }
+
+  #legend {
+    width: 100%;
+    padding-left: 40px;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  #legend svg {
+    display: inline-block;
+    max-width: 200px;
+  }
+
+  h2 {
+    font-size: 14pt;
+  }
+
+
+}
+
+@media only screen and (max-width: 500px) {
+  #legend svg {
+    max-width: 150px;
+  }
+}
