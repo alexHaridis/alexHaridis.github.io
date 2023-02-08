@@ -1,8 +1,8 @@
 /*
 
 The following code is commented out. It illustrates basic techniques for
-(Part 1) Loading data in D3 from external files, (Part 2) Manipulating (transforming)
-data with parse functions, (Part 3) Loading data from a public API.
+(Part 1) Loading data in D3 from external files, and (Part 2) Manipulating (transforming)
+data with parse functions.
 
 We will progressively comment out each of the sections in class.
 
@@ -38,17 +38,17 @@ Dependents: D3, file.txt, cities-sm.csv, countrycode-sm.json
 // Here, we load a txt file just print its contents in the console.
 // Here is the general syntax for the D3 method:
 
-//     d3.text("source/path to text file").then(function(data){ ... })
+//  d3.text("source/path to text file").then(function(data){ ... })
 
 // The function inside the dot notation .then(....) is called a 
 // CALLBACK function. For example, here is one that simply prints 
 // the data in the console.
 
-// function parseLOG(d) {
+function parseLOG(d) {
 
-//     console.log(d);
+    console.log(d);
 
-// }
+}
 
 // We supply this function to the d3.text() method in this way:
 
@@ -60,7 +60,7 @@ Dependents: D3, file.txt, cities-sm.csv, countrycode-sm.json
 // The following line loads a CSV file and prints its content using
 // the same callback function as before. 
 
-// d3.csv("datasets/cities-sm.csv").then(parseLOG);
+d3.csv("datasets/cities-sm.csv").then(parseLOG);
 
 // NOTE 1: In CSV files, the first row of the file is expected 
 //         to be the key/names for each data point.
@@ -78,7 +78,33 @@ Dependents: D3, file.txt, cities-sm.csv, countrycode-sm.json
 // d3.json("datasets/countrycode-sm.json").then(parseLOG);
 
 
-// PART 2: MANIPULATING (TRANSFORMING) DATA WITH PARSE FUNCTIONS
+// 4. Loading Data from a Public API
+
+// Examples of Public APIs:
+// https://datausa.io/about/api/
+// https://github.com/public-apis/public-apis/blob/master/README.md
+// https://www.kaggle.com/datasets
+
+let urlJSON = "https://datausa.io/api/data?drilldowns=State&measures=Population&year=latest";
+
+// d3.json(urlJSON).then(parseLOG);
+
+
+// Loading Data from a REALTIME Public API with a fixed time period for fetching/displaying data
+
+// let urlRealTime = "https://whiteboard.datawheel.us/api/google-analytics/realtime/random";
+
+// function loadData() {
+
+//     d3.json(urlRealTime).then(parseLOG);
+
+// }
+
+// setInterval(loadData, 1000);
+
+
+
+// PART 2: MANIPULATING (TRANSFORMING) DATA
 
 // We can PREPROCESS the data directly with d3 so that before
 // the data are loaded, we can do the following kinds of things:
@@ -86,160 +112,96 @@ Dependents: D3, file.txt, cities-sm.csv, countrycode-sm.json
 //     - Select only a slice of columns to include
 //     - Coerce values to different types (e.g., string to number)
 //     - Calculate new values and columns
+//
+// The following demonstration uses a dataset given in a CSV file.
 
-// To do this preprocessing, we supply a function expression as the
-// second argument to d3.csv() or the other loading methods, e.g.,
+// We can manipulate (transform) a dataset by accessing the original 
+// rows of the CSV file within the .then() callback method.  
 
-    // d3.csv("./path/to/data.csv", function() { ... }).then( ... )
-
-// This pre-processing function is called PARSE FUNCTION, which is
-// just a function that "does something" to our data.
-
-
-// 4. Pre-Process a CSV file so that the strings that represent
-// numerical values are converted/coerced into numbers.
-
-// We can do that in several ways. For example, two methods are:
-//   a. Use the built-in parseFloat() javascript function
-//   b. Use the unary operator +
-
-// The following parse function uses method (b) above and is
-// specifically for the cities-sm.csv file.
-
-// function parseCSVIntoNum(d) {
-
-//     // Returns a structure of objects:
-//     //       property: value pairs
-//     //
-//     // where strings that represent numerical
-//     // values are converted into numbers.
-
-//     return {
-//         "city": d.city,
-//         "state": d.state,
-//         "population": +d.population,
-//         "land area": +d["land area"]
-//     };
-
-// }
-
-
-// The function parseCSVIntoNum "acts" on the csv file and then
-// inside .then() the callback function parseLOG references the
-// resulting dataset after preprocessing and prints it.
-
-// NOTE: With this method, the PARSE FUNCTION acts on the whole
-// dataset and returns the modified dataset.
-
-// d3.csv("datasets/cities-sm.csv", parseCSVIntoNum).then(parseLOG);
-
-
-// 5. Manipulating (Transforming) Data "Row by Row"
-
-// We can manipulate (transform) a dataset in another way. Instead
-// of using a parse function, we can access the original dataset directly
-// by building a function within the .then() callback method.  
-
-// NOTE: When a CSV file is loaded, you then access every row one by one
-//       inside the .then() callback method and perform any alterations you want.
-//       Notice that throughout the function(data) {...} the input argument "data"
+// NOTE: Notice that throughout the function(data) {...} the input argument "data"
 //       references your csv file, so that you can perform multiple alternations
 //       using the same reference to the dataset (i.e., that is why "data" is defined
 //       only once as an input argument). Changes are cumulative, that is, every
 //       change you make at one point acts on the data it receives from a change
-//       in a preceding point.  
+//       in a previous point.  
 
 // d3.csv("datasets/cities-sm.csv").then(function(data){
     
-//     // This accesses the first row of the csv dataset
-//     // console.log(data[0]);
+    // This accesses the first row of the csv dataset
 
-//     // Change values using the .forEach() method that loops
-//     // through the rows of the dataset. In this way, you 
-//     // can alter values of individual keys selectively.
+    // console.log(data);
 
-//     // data.forEach( function(d) {
+    // Change values using the .forEach() method that loops
+    // through the rows of the dataset. In this way, you 
+    // can alter values of individual keys selectively.
 
-//     //     // Here, we alter the keys "population" and "land area" only.
-//     //     // Thus, we leave "city" and "state" as they are.
-//     //     d.population = +d.population;
-//     //     d["land area"] = +d["land area"];
+    //  Here, we are casting strings into numbers (i.e., the strings
+    //  that represent numbers but are loaded as strings).
+    //  We can do that in several ways. For example, two methods are:
+    //      a. Use the built-in parseFloat() javascript function
+    //      b. Use the unary operator +
+    //  The following function uses method (b).
 
-//     // });
+    // data.forEach( function(d) {
 
-//     // Filtering Data 
+    //     // Here, we alter the keys "population" and "land area" only.
+    //     // Thus, we leave "city" and "state" as they are.
+    //     d.population = +d.population;
+    //     d["land area"] = +d["land area"];
+
+    // });
+
+    // console.log(data);
+
+    // Filtering Data 
     
-//     // In the following, we use the JS .filter() method to return a row 
-//     // filled with elements that pass a particular test provided by a 
-//     // custom function.
+    // In the following, we use the JS .filter() method to return a row 
+    // filled with elements that pass a particular test provided by a 
+    // custom function.
 
-//     // let filtered_data = data.filter(function(d) {
+    // let filtered_data = data.filter(function(d) {
 
-//     //     // Return the object iff its key is equal to a specified string
-//     //     return d.state === "NY";
+    //     // Return the object iff its key is equal to a specified string
+    //     return d.state === "NY";
 
-//     // })
+    // })
 
-//     // console.log(filtered_data);
+    // console.log(filtered_data);
 
-//     // Finding MINIMUM or MAXIMUM value of a numerical variable
+    // Finding MINIMUM or MAXIMUM value of a numerical variable
 
-//     // Here, the methods d3.min() and d3.max() require 2 arguments:
-//     // the array/object to be analyzed and an "accessor" function that
-//     // returns the object key value to be used for the analysis.
+    // Here, the methods d3.min() and d3.max() require 2 arguments:
+    // the array/object to be analyzed and an "accessor" function that
+    // returns the object key value to be used for the analysis.
 
-//     // const min_pop = d3.min(data, function(d) { return +d.population; });
-//     // const max_pop = d3.max(data, function(d) { return +d.population; });
+    // function getValue(d) {
+    //     // Retrieves only the value in the column "population"
+    //     return +d.population;
+    // }
 
-//     // console.log(min_pop, max_pop);
+    // const min_pop = d3.min(data, getValue);
+    // const max_pop = d3.max(data, getValue);
 
-//     // GROUPING DATA
+    // console.log(min_pop, max_pop);
 
-//     // In the following, we use the JS .group method for arrays.
-//     // The method groups values by a particular key. It returns a map from 
-//     // key to the corresponding array of values from the input.
+    // GROUPING DATA
 
-//     // Here, we group the data by "city".
+    // In the following, we use the JS .group method for arrays.
+    // The method groups values by a particular key. It returns a map from 
+    // key to the corresponding array of values from the input.
 
-//     // let grouped_data = d3.group(data, function(d) {
+    // Here, we group the data by "city".
 
-//     //     return d.city;
+    // let grouped_data = d3.group(data, function(d) {
 
-//     // });
+    //    return d.city;
 
-//     // Returns a Map
-//     // console.log(grouped_data);
+    // });
 
-//     // Then, you can query the map for a particular group.
-//     // console.log(grouped_data.get("boston"));
+    // Returns a Map
+    // console.log(grouped_data);
 
-// });
-
-
-// PART 3: LOADING DATA FROM A PUBLIC API
-
-// Examples of Public APIs:
-// https://github.com/public-apis/public-apis/blob/master/README.md
-// https://www.kaggle.com/datasets
-
-// let url1 = "https://datausa.io/api/data?drilldowns=State&measures=Population&year=latest";
-
-// d3.json(url1).then(function(data){
-
-//     console.log(data);
+    // Then, you can query the map for a particular group.
+    // console.log(grouped_data.get("boston"));
 
 // });
-
-// Loading Data from a REALTIME Public API with a fixed time period for fetching/displaying data
-
-// let url2 = "https://whiteboard.datawheel.us/api/google-analytics/realtime/random";
-
-// function loadData() {
-
-//     d3.json(url2).then(function(data) {
-//         console.log(data);
-//     });
-
-// }
-
-// setInterval(loadData, 1000);
