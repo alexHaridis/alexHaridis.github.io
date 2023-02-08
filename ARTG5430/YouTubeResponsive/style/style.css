@@ -2,7 +2,6 @@
   box-sizing: border-box;
 }
 
-
 html, body {
   margin: 0px;
   padding: 0px;
@@ -62,7 +61,7 @@ h1 {
 
 /* MEDIA QUERIES */
 
-@media only screen and (max-width: 800px) {
+@media only screen and (max-width: 800) {
 
   #chart--container {
     flex-direction: column;
@@ -93,11 +92,12 @@ h1 {
     font-size: 14pt;
   }
 
-
 }
 
-@media only screen and (max-width: 500px) {
+@media only screen and (max-width: 500) {
+
   #legend svg {
     max-width: 150px;
   }
+
 }

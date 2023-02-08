@@ -28,8 +28,6 @@ function parseCsv(d) {
 
 d3.csv("./data/2021-youtube-trending-videos_entertainment-gaming-music.csv", parseCsv).then(function(data) {
 
-    console.log(data);
-
     /*
     MAKING THE SVG CANVAS RESPONSIVE
 
@@ -369,8 +367,6 @@ d3.csv("./data/2021-youtube-trending-videos_entertainment-gaming-music.csv", par
     });
 
 
-
-
     /* LISTENING FOR RESIZE EVENTS 
     
     In the following chunk, the DOM `window` object is selected
@@ -390,7 +386,6 @@ d3.csv("./data/2021-youtube-trending-videos_entertainment-gaming-music.csv", par
 
     
     */
-
 
 
     d3.select(window).on("resize", function(e) {
@@ -419,7 +414,7 @@ d3.csv("./data/2021-youtube-trending-videos_entertainment-gaming-music.csv", par
 
         */
         let windowWidth = window.innerWidth;
-        console.log(windowWidth);
+
         if(windowWidth > 1000) {
 
         } else {
@@ -427,8 +422,5 @@ d3.csv("./data/2021-youtube-trending-videos_entertainment-gaming-music.csv", par
         }
         
     });
-
-
-
 
 });
