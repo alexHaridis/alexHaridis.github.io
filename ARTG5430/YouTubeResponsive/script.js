@@ -258,7 +258,6 @@ d3.csv("./data/2021-youtube-trending-videos_entertainment-gaming-music.csv", par
 
     points.on("mouseover", function(e,d) {
 
-
         let x = sx*(+d3.select(this).attr("cx")) + 20;
         let y = sy*(+d3.select(this).attr("cy")) - 10;
         
@@ -326,6 +325,7 @@ d3.csv("./data/2021-youtube-trending-videos_entertainment-gaming-music.csv", par
             .attr("x", legendMargin + 25)
             .attr("y", legendMargin + i*legendSpacing)
             .text(category);
+            
     });
 
     /* 

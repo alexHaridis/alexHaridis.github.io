@@ -65,10 +65,9 @@ h1 {
 
 /* Examples */
 
-/* @media screen and (max-width: 800px) {
+/* @media screen and (min-width: 800px) {
 
   h1 {
-    text-align: center;
     color: green;
   }
 
@@ -80,10 +79,9 @@ h1 {
 
 /* Opposite behavior as above */
 
-/* @media screen and (min-width: 800px) {
+/* @media screen and (max-width: 1000px) {
 
   h1 {
-    text-align: center;
     color: green;
   }
 
@@ -99,47 +97,49 @@ h1 {
 
 /* IN CLASS QUESTION-ANSWERING */
 
-/* Examine the following CSS media queries and CSS rules inside of them.
-Answer the following questions (i.e., add comments) based on your understanding: 
-
-1. What are the conditions used to define these media queries? What breakpoints 
-do they correspond to in terms of screen sizes?
-
-2. Examine the first media query below (max-width:800px). Inside this media query,
-something specific is happening to the flex layout of the page. What is it?
-How does this relate to the visual layout of the page when you resize the window? */
-
-
-/* @media only screen and (max-width: 800) {
+@media only screen and (max-width: 800px) {
 
   #chart--container {
+
     flex-direction: column;
+
   }
 
   #chart {
+
     width: 100%;
+
   }
 
   #legend h2 {
+
     flex: 1 0 100%;
+
   }
 
   #legend {
+
     width: 100%;
     padding-left: 40px;
+    /* flex-direction: column; */
     flex-direction: row;
     flex-wrap: wrap;
+
   }
 
   #legend svg {
+
     display: inline-block;
     max-width: 200px;
+
   }
 
   h2 {
+
     font-size: 14pt;
+
   }
-  
+
 }
 
 @media only screen and (max-width: 500) {
@@ -148,4 +148,4 @@ How does this relate to the visual layout of the page when you resize the window
     max-width: 150px;
   }
 
-} */
+}

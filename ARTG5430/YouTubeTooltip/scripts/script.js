@@ -398,7 +398,7 @@ d3.csv("./data/2021-youtube-trending-videos_entertainment-gaming-music.csv", par
         The reason for including this is that we want to
         disable to the automatic tooltip event for
         circles that are hidden in the visualization
-        if they've been filtered out from a checkbox!
+        if they've been filtered out from a checkbox.
         
         */
 
