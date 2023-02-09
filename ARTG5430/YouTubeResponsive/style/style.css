@@ -97,7 +97,7 @@ h1 {
 
 /* IN CLASS QUESTION-ANSWERING */
 
-@media only screen and (max-width: 800px) {
+@media screen and (max-width: 800px) {
 
   #chart--container {
 
@@ -142,7 +142,7 @@ h1 {
 
 }
 
-@media only screen and (max-width: 500) {
+@media screen and (max-width: 500) {
 
   #legend svg {
     max-width: 150px;

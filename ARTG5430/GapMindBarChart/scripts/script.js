@@ -115,8 +115,6 @@ d3.csv("./data/gapminder.csv").then(function(data) {
     each row and test if it is (strictly) equal to the
     provided string, `United States`. The row passes the
     test if it is, otherwise it is ignored.
-    
-    A: 
 
     - Why are we storing the result of data.filter(...)
         inside a variable (filtered_data)?
@@ -281,6 +279,7 @@ d3.csv("./data/gapminder.csv").then(function(data) {
 
 
     /*
+
     DRAW BARS
 
     In this bar chart, each bar will represent a single year for the United States;
@@ -292,28 +291,57 @@ d3.csv("./data/gapminder.csv").then(function(data) {
     The following chunk of code is the standard D3 data join pattern.
         - What is the purpose of the pattern svg.selectAll().data().enter().append()?
 
-        A:
+        A: This is a standard pattern for joining data with D3. 
+        The purpose of this pattern is to JOIN data with DOM elements, 
+        such as SVG basic shapes (e.g., rect). The pattern starts with
+        .selectALl() that selects all the currently existing shapes and
+        binds them with the provided dataset using .data(). Then,
+        you use .enter() to check what ADDITIONAL shapes you must
+        create/append to complete the binding. For example, if you
+        have NO SHAPES of the type "rect" in the beginning, then
+        .enter().append("rect") will append as many rectangles as
+        needed to bind all the data points in your dataset. If you have
+        1 "rect" and 3 data points, then it will append 2 missing
+        "rect" shapes to complete the binding. Essentially, .enter()
+        tells you which data points are missing a corresponding DOM
+        element. 
 
         - Each attribute defined below is defined using things called
             "accessor functions." In each accessor function, what is
             the parameter named `d` a reference to?
 
-        A:
+        A: A row in your CSV dataset.
 
         - Inside each accessor function, what is the purpose of
             each "return ___;" statement?
         
-        A:
+        A: To return a value that can be associated with the given variable. 
+        You need an accessor function in order to go through all the available
+        data points.
 
         - What does xScale.bandwidth() compute? How is that value being used here?
 
-        A:
+        A: The .bandwidth() method returns the width of each band in your xScale
+        and it is used to provide a width to your rectangles. Here, the width
+        is a constant value.
 
         - What is going on with the calculation for the "height" attribute?
             Explain how the expression inside the accessor function for this
             attribute works.
         
-        A:
+        A: It is a linear expression that determines the height of a rectangle. The
+        function yScale() returns the point on the Y axis for each data point. Remember
+        that the coordinate system's origin is the top left point of the screen. So,
+        a positive y coordinate is taken from top to bottom. You also have a margin
+        that provides gaps around your chart (e.g., you put the axes' titles in those
+        gaps). If you simply take height - margin.bottom, then the height of each
+        rectangle will not take account of margin.bottom. So, you need to subtract
+        that value as well so that your rectangle starts from the point you take
+        from yScale(d.lifeExp) and extends until it hits the x-axis. 
+        
+        Tip: Use the consolo.log() to compute and print each of the components of this 
+        linear expression separately, to understand how all of this works. This is also 
+        a good exercise for understanding how the coordinate system works in an SVG canvas.
 
     */
 
@@ -324,7 +352,7 @@ d3.csv("./data/gapminder.csv").then(function(data) {
             .attr("x", function(d) { return xScale(d.year); })
             .attr("y", function(d) { return yScale(d.lifeExp); })
             .attr("width", xScale.bandwidth())
-            .attr("height", function(d) { return height - margin.bottom - yScale(d.lifeExp); })
+            .attr("height", function(d) { return height - (margin.bottom + yScale(d.lifeExp)); })
             .attr("fill", "steelblue");
     
     /*
@@ -339,9 +367,20 @@ d3.csv("./data/gapminder.csv").then(function(data) {
     how their values are computed to control the rotated
     placement of the label?
 
-    A:
+    A: For `yAxisLabel`, the tricky point is understanding how
+    the coordinate system works. Here, the negative `x` value controls
+    how the axis label moves from TOP TO BOTTOM. The positive `y` value
+    controls how it moves from LEFT TO RIGHT.
+
+    The `transform` attribute controls the rotation of the axis label
+    by taking as the origin the top left point of the screen. Note,
+    a rotation by -90 is a clockwise rotation.
+
+    As before, to understand how all of this works use the console.log()
+    print method to test each of the computations separately.
 
     */
+
     const xAxisLabel = svg.append("text")
         .attr("class","axisLabel")
         .attr("x", width/2)
@@ -351,8 +390,8 @@ d3.csv("./data/gapminder.csv").then(function(data) {
     const yAxisLabel = svg.append("text")
         .attr("class","axisLabel")
         .attr("transform","rotate(-90)")
-        .attr("x",-height/2)
-        .attr("y",margin.left/2)
+        .attr("x", -height/2)
+        .attr("y", margin.left/2)
         .text("Life Expectancy (Years)");
 
 });
