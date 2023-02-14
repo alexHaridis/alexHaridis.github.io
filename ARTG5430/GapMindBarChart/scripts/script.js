@@ -128,7 +128,9 @@ d3.csv("./data/gapminder.csv").then(function(data) {
     */
 
     let filtered_data = data.filter(function(d) {
+
         return d.country === 'United States';
+
     });
 
 
@@ -176,8 +178,10 @@ d3.csv("./data/gapminder.csv").then(function(data) {
     */
 
     const lifeExp = {
+        
         min: d3.min(filtered_data, function(d) { return +d.lifeExp; }),
         max: d3.max(filtered_data, function(d) { return +d.lifeExp; })
+
     };
 
     /*
