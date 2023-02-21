@@ -1,3 +1,11 @@
+d3.csv("test.csv").then(function(data){
+    var subgroups = data.columns.slice(1);
+    var groups = d3.map(data, function(d){return(d.group)}).keys();
+
+    console.log(subgroups);
+    console.log(groups);
+});
+
 d3.csv("new.csv").then(function(data) {
 
     /*DEFINE DIMENSIONS OF SVG + CREATE SVG CANVAS*/
@@ -11,6 +19,11 @@ d3.csv("new.csv").then(function(data) {
         .attr("height", height);
 
     /* FILTER THE DATA */
+
+    let subgroups = ["1900", "2000"];
+    // let groups = d3.map(data, function(d){ if (d.Sex === '1' && d.Year === '1900' ){ return d.Age } }).keys();
+    let groups = ["0","5","10","15","20","25","30","30","35","40","45","50","55","60","65","70","75","80","85","90"].keys();
+    // console.log(groups);
 
     let filtered_data_sex_1900 = data.filter(function(d) {
         return d.Sex === '1' && d.Year === '1900';
@@ -34,13 +47,18 @@ d3.csv("new.csv").then(function(data) {
 
     /*CREATE SCALES*/
     const xScale = d3.scaleBand()
-        .domain(["0","5","10","15","20","25","30","30","35","40","45","50","55","60","65","70","75","80","85","90"])
+        .domain(groups)
         .range([margin.left, width-margin.right])
         .padding(0.5);
 
     const yScale = d3.scaleLinear()
         .domain([0, pop2000.max])
         .range([height-margin.bottom, margin.top]);
+
+    const xSubgroup = d3.scaleBand()
+        .domain(subgroups)
+        .range([0, xScale.bandwidth()])
+        .padding(0.02);
 
     /*DRAW AXES*/
     const xAxis = svg.append("g")
@@ -53,26 +71,26 @@ d3.csv("new.csv").then(function(data) {
         .attr("transform", `translate(${margin.left},0)`)
         .call(d3.axisLeft().scale(yScale));
 
-    /* DRAW BARS*/
     
+    /*DRAW BARS*/
     const points1900 = svg.selectAll("rect")
-        .data(filtered_data_sex_1900)                                                                        /* Joins data to the selected elements which is all the rectangles in this case */
+        .data(filtered_data_sex_1900)                                                               /* Joins data to the selected elements which is all the rectangles in this case */
         .enter()                                                                                    /* Creates a selection with placeholder references for missing elements */
         .append("rect")                                                                             /* Create rectangles in each place holder */
-        .attr("x", function(d) { return xScale(d.year); })
-        .attr("y", function(d) { return yScale(d.pop1900); })
+        .attr("x", function(d) { return xScale(d.Age); })
+        .attr("y", function(d) { return yScale(d.People); })
         .attr("width", xScale.bandwidth())
-        .attr("height", function(d) { return height - margin.bottom - yScale(d.lifeExp); })
+        .attr("height", function(d) { return height - margin.bottom - yScale(d.People); })
         .attr("fill", "orange");
 
     const points2000 = svg.selectAll("rect")
         .data(filtered_data_sex_2000)                                                                        /* Joins data to the selected elements which is all the rectangles in this case */
         .enter()                                                                                    /* Creates a selection with placeholder references for missing elements */
         .append("rect")                                                                             /* Create rectangles in each place holder */
-        .attr("x", function(d) { return xScale(d.year); })
-        .attr("y", function(d) { return yScale(d.pop2000); })
+        .attr("x", function(d) { return xScale(d.Age); })
+        .attr("y", function(d) { return yScale(d.People); })
         .attr("width", xScale.bandwidth())
-        .attr("height", function(d) { return height - margin.bottom - yScale(d.lifeExp); })
+        .attr("height", function(d) { return height - margin.bottom - yScale(d.People); })
         .attr("fill", "steelblue");
     
     /*DRAW AXIS LABELS*/
