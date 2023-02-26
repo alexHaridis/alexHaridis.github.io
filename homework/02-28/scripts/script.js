@@ -1,15 +1,27 @@
+// Grab the dimensions of the open window in the browser.
+// Our geographical map will extend throughout the window.
+
 let width = window.innerWidth, height = window.innerHeight;
+
+// We initialize variables for the svg container that holds all
+// of our visualization elements. And we also initialize a variable
+// to store just the element that holds our map; this element is a group
+// that in HTML tags is given by "g". See the index.html for more information.
 
 const svg = d3.select("#viz")
             .attr("width", width)
             .attr("height", height);
 
+const map = svg.select("#map");
+
+// Because we are creating a map, we also want to add some kind of "ocean". This is going
+// to be just a rectangle that has an ID called #ocean. See the index.html
+
 d3.select("#ocean")
   .attr("width", width)
   .attr("height", height);
 
-const map = svg.select("#map");
-
+// Here start building the geographical map by first loading a TopoJSON file.
 d3.json("data/world-alpha3.json").then(function(world) {
 
     /** 
