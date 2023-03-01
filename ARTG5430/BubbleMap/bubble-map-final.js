@@ -33,6 +33,7 @@ const files = [
     { "type": "json", "file": "https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson" },
     { "type": "csv", "file": "data/all_day.csv" } // dataset of every earthquake on Mar 21, 2022 from here: https://earthquake.usgs.gov/earthquakes/feed/v1.0/csv.php
 ];
+
 let promises = [];
 
 // for each file type, add the corresponding d3 load function to our promises
@@ -55,8 +56,9 @@ ALL THE MAP STUFF HAPPENS HERE AND IT DEPENDS ON DATA BEING LOADED
 function drawMap(geo, data) {
 
     // our function has two parameters, both of which should be data objects
-    console.log('GEO: ', geo)
-    console.log('dataset: ', data)
+
+    // console.log('GEO: ', geo)
+    // console.log('dataset: ', data)
 
     // we want to scale the size of each bubble based on an attribute of the data
     var rScale = d3.scaleSqrt()
@@ -76,9 +78,11 @@ function drawMap(geo, data) {
     // use a for loop to draw a few sample circle sizes for our legend
     // next to each circle, add the corresponding number value
     // we can see what our "max" magnitude is by inspecting the domain of our rScale
-    console.log(rScale.domain())
+
+    // console.log(rScale.domain())
+
     for (var i = 1; i < 6; i = i + 2) {
-        console.log(i)
+        // console.log(i)
         legend.append("circle")
             .attr("cx", 20)
             .attr("cy", 2 * (i + 1) + 20)
@@ -106,7 +110,6 @@ function drawMap(geo, data) {
         .attr("country", function (d) { return d.id })
         .attr("fill", "#eeeeee")
 
-
     function updateCircles(dataset, scale = 1) {
         // draw dots for each earthquake
         var circs = g
@@ -118,7 +121,7 @@ function drawMap(geo, data) {
             .attr("fill-opacity", 0.5)
             .attr("fill", "orange")
             .attr("cx", function (d) {
-                console.log(projection([d.longitude, d.latitude]))
+                // console.log(projection([d.longitude, d.latitude]))
                 return projection([d.longitude, d.latitude])[0]
             })
             .attr("cy", function (d) { return projection([d.longitude, d.latitude])[1] })
