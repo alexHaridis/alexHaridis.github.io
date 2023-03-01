@@ -1,9 +1,15 @@
-// Grab the dimensions of the open window in the browser.
+// 1. Grab the dimensions of the open window in the browser.
 // Our geographical map will extend throughout the window.
 
-let width = window.innerWidth, height = window.innerHeight;
+const width = window.innerWidth, height = window.innerHeight;
 
-// We initialize variables for the svg container that holds all
+// Try to use these two variables for `width` and `height` instead and
+// notice what happens to the size of the map visualization. Can you tell why?
+
+// const width = document.querySelector("#viz").clientWidth;
+// const height = document.querySelector("#viz").clientHeight;
+
+// 2. We initialize variables for the svg container that holds all
 // of our visualization elements. And we also initialize a variable
 // to store just the element that holds our map; this element is a group
 // that in HTML tags is given by "g". See the index.html for more information.
@@ -14,17 +20,19 @@ const svg = d3.select("#viz")
 
 const map = svg.select("#map");
 
-// Because we are creating a map, we also want to add some kind of "ocean". This is going
+// 3. Because we are creating a map, we also want to add some kind of "ocean". This is going
 // to be just a rectangle that has an ID called #ocean. See the index.html
 
 d3.select("#ocean")
   .attr("width", width)
   .attr("height", height);
 
-// Here start building the geographical map by first loading a TopoJSON file.
+// 4. Here start building the geographical map by first loading a TopoJSON file.
+
 d3.json("data/world-alpha3.json").then(function(world) {
 
     /** 
+     * 5.
      * This function converts the loaded TopoJSON object to GeoJSON
      * It creates an array of JavaScript objects where each object stores:
      * (a) Geometry (e.g., polygons) defined by a list of coordinates.
@@ -34,14 +42,18 @@ d3.json("data/world-alpha3.json").then(function(world) {
 
     var geoJSON = topojson.feature(world, world.objects.countries);
     
+    // 6.
     // We are removing the JavaScript object that stores the features
     // of Antarctica because we will hide Antarctica from the map we are making. 
+
     geoJSON.features = geoJSON.features.filter(function(d) {
+
         return d.id !== "ATA";
+        
     });
 
     /**
-     * Map Projections
+     * 7. Map Projections
      * 
      * Just like we set up a linear scale for mapping data values to pixel positions
      * in a bar chart or scatter plot (e.g., with linearScale), we need to create a
@@ -60,16 +72,18 @@ d3.json("data/world-alpha3.json").then(function(world) {
     var proj = d3.geoMercator().fitSize([width, height], geoJSON);
 
     /**
-     * Geographical Path Constructor
+     * 8. Geographical Path Constructor
      * 
      * 
      */
 
     var path = d3.geoPath().projection(proj);
 
-    var countries = map.selectAll("path").data(geoJSON.features);
-
-    countries.enter().append("path")
+    map.selectAll("path")
+        .data(geoJSON.features)
+        .enter().append("path")
+        // we use the "d" attribute in SVG graphics to define a path to be drawn
+        // "d" is a presentation attribute, so can also be used as a CSS property
         .attr("d", path)
         .attr("fill", "#FCEDDA")
         .attr("vector-effect", "non-scaling-stroke")
@@ -77,7 +91,7 @@ d3.json("data/world-alpha3.json").then(function(world) {
         .attr("stroke-width", "0.1px");
     
     /**
-     * Plotting on the Geographical Map
+     * 9. Plotting on the Geographical Map
      * 
      * Plot two circles on the geographical map to denote the location 
      * of particular cities. The location of a city is given by the 
@@ -94,25 +108,29 @@ d3.json("data/world-alpha3.json").then(function(world) {
         {"name": "London", "coords": [-0.1278, 51.5074]}
     ];
 
-    // The following is the usual D3 joint pattern for adding
-    // SVG circle shapes. 
+    // 10. The following is a D3 join pattern for adding SVG circle shapes. 
     //
     // Here, notice how we transform the circles using
     // the projection function we defined previously. Essentially, the
     // projection is just a function that requires an input argument, 
     // namely the coordinates of a point.
 
-    var cities = map.selectAll("circle")
+    // We define a variable for the radius of the circles that represent our cities.
+    // We will use this variable in two different places below.
+
+    var circleRadius = 4;
+
+    map.selectAll("circle")
         .data(points)
         .enter().append("circle")
-        .attr("r", 3)
+        .attr("r", circleRadius)
         .attr("fill", "#201E20")
         .attr("transform", function(d) {
             return "translate(" + proj(d.coords) + ")";
         });
 
     /**
-     * D3 Zoom and pan
+     * 11. D3 Zoom and Pan
      * 
      * D3 provides a method called .zoom() that adds zoom and pan behaviour to an
      * HTML or SVG element. 
@@ -127,13 +145,32 @@ d3.json("data/world-alpha3.json").then(function(world) {
         // e.transform represents the latest zoom transform caused by a zoom event
         // and it is applied to the svg map element (see the index.html).
         map.attr("transform", e.transform);
-    }
+
+        // RESIZING Circles: 
+        // Uncomment the following lines of code to scale the circles/cities 
+        // based on how you zoom into the map.
+
+        // We divide our original circleRadius with the current transformation
+        // of our `map` container caused by the zooming behaviour. The attribute
+        // .k retrieves the scaling factor of the current transformation.
+
+        // Take a look at the documentation for D3 events to understand what 
+        // <event>.transform.k means:
+        // https://github.com/d3/d3-zoom#zoom-transforms
+
+        // map.selectAll("circle")
+        //     .attr("r", function(d){
+        //         return circleRadius/e.transform.k;
+        //     });
+    };
 
     // Calling d3.zoom() creates a zoom behavior. Note, the .zoom() method 
     // handles both zoom and pan events.
     let zoom = d3.zoom()
         // This essentially constraints the user so that the user can only
         // zoom and pan within specific bounds, e.g., our window's width and height.
+        // Top-Left Point of Browser: [0, 0]
+        // Bottom-Right Point of Browser: [width, height]
         .translateExtent([[0, 0], [width, height]])
         // This constraints the extent to which you can zoom in and out.
         //          [minimum scale factor, maximum scale factor]
