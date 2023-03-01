@@ -24,10 +24,12 @@ let geoPathGenerator = d3.geoPath().projection(projection);
 // will be used later for grid lines
 const graticule = d3.geoGraticule();
 
+// Organize all the files you are about to load
 var files = [
     { "type": "json", "file": "https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson" },
     { "type": "csv", "file": "https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world_population.csv" }
 ];
+
 var promises = [];
 
 files.forEach(function (d) {

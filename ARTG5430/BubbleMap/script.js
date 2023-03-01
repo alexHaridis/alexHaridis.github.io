@@ -117,22 +117,13 @@ function drawMap(geo, data) {
             return rScale(d.mag)*scale;
         })// Tooltip
         .on('mouseover', function (e, d) {
-            d3.select(this).style("stroke", "black");
-
-            tooltip.style("visibility", "visible");
+            // TO DO
         })
         .on('mousemove', function (e, d) {
-            let x = e.offsetX;
-            let y = e.offsetY;
-
-            tooltip.style("left", x + 20 + "px")
-                .style("top", y + "px")
-                .html(d.place + "</br>" + d.mag);
+            // TO DO
         })
         .on('mouseout', function () {
-            d3.select(this).style("stroke", "gray");
-
-            tooltip.style("visibility", "hidden");
+            // TO DO
         });
 
     // Draw the graticule grid line on the map
@@ -151,22 +142,7 @@ function drawMap(geo, data) {
         .attr("stroke-width", "1px");
     
     // create a zoom function
-    var zoom = d3.zoom()
-        .translateExtent([[0,0], [windowWidth, windowHeight]])
-        .scaleExtent([1, 8])
-        .on("zoom", function(e){
-            g.attr("transform", e.transform);
-            // (a) Alternatively, you may represent the event's transformation using the
-            // individual components of the transformation: translation and scale.
-            // g.attr("transform", "translate(" + e.transform.x + "," + e.transform.y + ")scale(" + e.transform.k + ")");
-            // (b) To avoid the overlap in the circles, e.g., in California, you may
-            // want to reduce the radius based on the zooming factor.
-            // Here is one way to achieve this:
-            g.selectAll("circle")
-                .attr("r", function(d){
-                    return (rScale(d.mag)*scale)/e.transform.k;
-                })
-        })
+    var zoom = d3.zoom();
 
     // call zoom so it is "listening" for an event on our SVG
     svg.call(zoom);

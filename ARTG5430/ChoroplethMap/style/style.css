@@ -4,39 +4,7 @@
 	stroke-width: 0.8;
 }
 
-.dark-continent {
-	fill: #eeeeee;
-	stroke: #bbbbbb;
-}
-
 .graticule {
 	stroke: rgb(222, 222, 222);
 	stroke-width: 0.5;
-}
-
-.grid {
-	fill: none;
-	stroke: #333;
-}
-
-.circles {
-    stroke: #555155;
-}
-
-.c2 {
-	stroke-width: 0.5;
-}
-
-.non-c2 {
-	stroke-width: 0.5
-}
-
-.diamonds {
-    stroke-width: 0;
-}
-
-.labels {
-	font-family: sans-serif;
-	font-size: 12px;
-	/* fill: #3c373d; */
 }

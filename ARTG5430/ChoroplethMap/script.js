@@ -10,7 +10,7 @@ const svg = d3.select("div#chart").append("svg")
 let projectionScale = 250;
 
 // define the settings for map projection
-const projection = d3.geoEqualEarth()
+const projection = d3.geoOrthographic()
     .translate([window.innerWidth / 2, window.innerHeight / 2])
     // .rotate([-33, -20, 0]) // Africa side
     .scale(projectionScale)
@@ -53,28 +53,28 @@ function drawMap(geo, data) {
         .nice();
 
     // add grid lines to the globe
-    // svg.append("path")
-    //     .datum(graticule)
-    //     .attr("class", "graticule")
-    //     .attr("d", geoPathGenerator)
-    //     .style("fill", "none");
+    svg.append("path")
+        .datum(graticule)
+        .attr("class", "graticule")
+        .attr("d", geoPathGenerator)
+        .style("fill", "none");
 
     // // Draw the map
-    // svg.append("g")
-    //     .selectAll("path")
-    //     .data(geo.features)
-    //     .join("path")
-    //     .attr("class", 'continent')
-    //     // draw each country
-    //     .attr("d", geoPathGenerator)
-    //     // set the color of each country
-    //     .attr("fill", "white");
+    svg.append("g")
+        .selectAll("path")
+        .data(geo.features)
+        .join("path")
+        .attr("class", 'continent')
+        // draw each country
+        .attr("d", geoPathGenerator)
+        // set the color of each country
+        .attr("fill", "white");
 }
 
 const sensitivity = 75
 
 var drag = d3.drag().on('drag', function (event) {
-    console.log(event)
+    // console.log(event)
     // const rotate = projection.rotate();
     // const k = sensitivity / projection.scale();
     // projection.rotate([
