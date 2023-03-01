@@ -73,8 +73,6 @@ d3.json("data/world-alpha3.json").then(function(world) {
 
     /**
      * 8. Geographical Path Constructor
-     * 
-     * 
      */
 
     var path = d3.geoPath().projection(proj);

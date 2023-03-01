@@ -5,25 +5,13 @@
 
 const windowWidth = window.innerWidth, windowHeight = window.innerHeight;
 
+// Define and add an SVG canvas
 const svg = d3.select("div#chart")
-            .append("svg")
-            .attr("width", windowWidth)
-            .attr("height", windowHeight)
-            .attr("preserveAspectRatio", "xMinYMin meet")
-            .style("background-color", "#fff");
-
-// We will use this constructor below to draw graticule over our map
-const graticule = d3.geoGraticule();
-
-// Create a group `g` HTML element to append all of our objects to.
-const g = svg.append("g");
-
-/* 
-    ADD TOOLTIP FOR LATER
-*/
-const tooltip = d3.select("#chart")
-    .append("div")
-    .attr("class", "tooltip");
+    .append("svg")
+    .attr("preserveAspectRatio", "xMinYMin meet")
+    .style("background-color", "#fff")
+    .attr("width", windowWidth)
+    .attr("height", windowHeight)
 
 // Define the settings for map projection
 const projection = d3.geoEqualEarth()
@@ -31,50 +19,53 @@ const projection = d3.geoEqualEarth()
     .scale(250)
     .center([0, 0]);
 
-// Create the Geo Path generator
+// create the geo path generator
 let geoPathGenerator = d3.geoPath().projection(projection);
 
-/**
- * Loading Data
- */
+/* 
+    ADD TOOLTIP FOR LATER
+    The visualization gets too cluttered if we try to add text labels;
+    use a tooltip instead
+*/
+const tooltip = d3.select("#chart")
+    .append("div")
+    .attr("class", "tooltip");
+
+// will be used later for grid lines
+const graticule = d3.geoGraticule();
+
+// great a g element to append all of our objects to
+const g = svg.append("g");
+
+// Maps use multiple file types. We can store the "type" of each file along with the URL for easy loading!
+const files = [
+    { "type": "json", "file": "https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson" },
+    // Dataset of every earthquake on Mar 21, 2022 from here: https://earthquake.usgs.gov/earthquakes/feed/v1.0/csv.php
+    { "type": "csv", "file": "data/all_day.csv" }
+];
 
 let promises = [];
 
-promises.push(d3.json("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson"));
-promises.push(d3.csv("data/all_day.csv"));
+// for each file type, add the corresponding d3 load function to our promises
+files.forEach(function (d) {
+    if (d.type == "json") {
+        promises.push(d3.json(d.file));
+    } else {
+        promises.push(d3.csv(d.file));
+    }
+});
 
-/**
- * When all the data have been loaded, we call the function that draws a map in terms of them.
- * Experiment with console.log() to see how d3.json and d3.csv load files.
- * Promises have three states: pending, fulfilled, and rejected
- * What you want is to have all primises being fulfilled before you move forward
- * with working with the data you loaded.
- * 
- * Promise.all() is a static method that waits for all promises to be fullfilled.
- * 
- * For more information on JavaScript promises, see:
- * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise
- */
+// when our data has been loaded, call the draw map function
+Promise.all(promises).then(function (values) {
+    drawMap(values[0], values[1]);
+});
 
-Promise.all(promises).then(function(results){
-    drawMap(results[0], results[1]);
-})
-
-/**
- * The following function accepts two datasets and draws a geographical map.
- * Includes:
- * (1) Drawing of polygons 
- * (2) Drawing of circles representing locations on the map
- * (3) Tooltip functionality on the circles
- * (4) Drawing of graticule
- * (5) Zoom and Pan behaviour
- * 
- * @param {*} geo A GeoJSON data type storing geographical information
- * @param {*} data A CSV file representing an array of JavaScript objects
- */
+/*
+ALL THE MAP STUFF HAPPENS HERE AND IT DEPENDS ON DATA BEING LOADED
+*/
 function drawMap(geo, data) {
 
-    // Print the results from loading `geo` and `data`. Both should be data types
+    // Our function has two parameters, both of which should be data objects
     // console.log('GEO: ', geo);
     // console.log('dataset: ', data);
 
