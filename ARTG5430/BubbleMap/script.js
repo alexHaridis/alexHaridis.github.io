@@ -1,15 +1,19 @@
+// 1. Grab the dimensions of the open window in the browser.
+// Our geographical map will extend throughout the window.
+
+const windowWidth = window.innerWidth, windowHeight = window.innerHeight;
 
 // make the SVG and viewbox
 const svg = d3.select("div#chart").append("svg")
     .attr("preserveAspectRatio", "xMinYMin meet")
     .style("background-color", "#fff")
-    .attr("viewBox", "0 0 " + window.innerWidth + " " + window.innerHeight)
+    .attr("viewBox", "0 0 " + windowWidth + " " + windowHeight)
     .attr("id", "map-svg")
     .classed("svg-content", true);
 
 // define the settings for map projection
 const projection = d3.geoEqualEarth()
-    .translate([window.innerWidth / 2, window.innerHeight / 2])
+    .translate([windowWidth / 2, windowHeight / 2])
     .scale(250)
     .center([0, 0]);
 
@@ -72,16 +76,38 @@ function drawMap(geo, data) {
         .data(geo.features)
         .enter()
         .append("path")
-        .attr("class", 'continent')
         // draw each country
         .attr("d", geoPathGenerator)
         .attr("country", function (d) { return d.id })
-        // set the color of each country
-        .attr("fill", "#eeeeee")
+        // set the styling of each country, and other attributes
+        .attr("class", 'continent')
+        .attr("vector-effect", "non-scaling-stroke") // this is an SVG attribute
 
+    // Draw the graticule grid line on the map
+    d3.select("g").append("path")
+        .datum(graticule)
+        .attr("d", geoPathGenerator)
+        .attr("fill", "none")
+        .attr("stroke", "lightgray")
+        .attr("stroke-width", "0.5px");
+    
+    d3.select("g").append("path")
+        .datum(graticule.outline)
+        .attr("d", geoPathGenerator)
+        .attr("fill", "none")
+        .attr("stroke", "black")
+        .attr("stroke-width", "1px");
+    
     // create a zoom function
     var zoom = d3.zoom()
+        .translateExtent([[0,0], [windowWidth, windowHeight]])
         .scaleExtent([1, 8])
+        .on("zoom", function(e){
+            g.attr("transform", e.transform);
+            // Alternatively, you may represent the event's transformation using the
+            // individual components of the transformation: translation and scale.
+            // g.attr("transform", "translate(" + e.transform.x + "," + e.transform.y + ")scale(" + e.transform.k + ")");
+        })
 
     // call zoom so it is "listening" for an event on our SVG
     svg.call(zoom);

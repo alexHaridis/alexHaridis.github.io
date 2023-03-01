@@ -25,7 +25,7 @@ const tooltip = d3.select("#chart")
     .append("div")
     .attr("class", "tooltip");
 
-// great a g element to append all of our objects to
+// Create a g element to append all of our objects to
 const g = svg.append("g");
 
 // maps use multiple file types. we can store the "type" of each file along with the URL for easy loading!

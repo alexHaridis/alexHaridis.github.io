@@ -88,7 +88,7 @@ d3.json("data/world-alpha3.json").then(function(world) {
         .attr("fill", "#FCEDDA")
         .attr("vector-effect", "non-scaling-stroke")
         .attr("stroke", "#FC766AFF")
-        .attr("stroke-width", "0.1px");
+        .attr("stroke-width", "0.2px");
     
     /**
      * 9. Plotting on the Geographical Map
