@@ -16,7 +16,7 @@ const svg = d3.select("div#chart")
 
 // Create a group `g` HTML element to append all of our objects to.
 const g = svg.append("g");
-
+d
 // We will use this constructor below to draw graticule over our map
 const graticule = d3.geoGraticule();
 
