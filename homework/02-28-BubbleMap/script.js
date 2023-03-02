@@ -17,9 +17,12 @@ const svg = d3.select("div#chart")
 // Create a group `g` HTML element to append all of our objects to.
 const g = svg.append("g");
 
+// We will use this constructor below to draw graticule over our map
+const graticule = d3.geoGraticule();
+
 /**
  * 2. Preliminary Initializations and Settings for:
- *       Tooltip, Projection function, Geo Path generator, Graticule
+ *          Tooltip, Projection function, Geo Path generator
  */
 
 // The tooltip is initialized as usual.
@@ -46,9 +49,6 @@ const projection = d3.geoEqualEarth()
 
 // Create the Geo Path generator
 let geoPathGenerator = d3.geoPath().projection(projection);
-
-// We will use this constructor below to draw graticule over our map
-const graticule = d3.geoGraticule();
 
 /**
  *  3. Loading Data
@@ -98,6 +98,7 @@ Promise.all(promises).then(function(results){
  * @param {*} geo A GeoJSON data type storing geographical information
  * @param {*} data A CSV file representing an array of JavaScript objects
  */
+
 function drawMap(geo, data) {
 
     // Print the results from loading `geo` and `data`. Both should be data types

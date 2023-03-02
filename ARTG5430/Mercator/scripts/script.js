@@ -79,7 +79,8 @@ d3.json("data/world-alpha3.json").then(function(world) {
 
     map.selectAll("path")
         .data(geoJSON.features)
-        .enter().append("path")
+        .enter()
+        .append("path")
         // we use the "d" attribute in SVG graphics to define a path to be drawn
         // "d" is a presentation attribute, so can also be used as a CSS property
         .attr("d", path)
@@ -101,9 +102,16 @@ d3.json("data/world-alpha3.json").then(function(world) {
 
     // NOTE: The coordinates for a city are given as: [longitude, latitude]
     //       because that is how the projection function wants them.
+
     var points = [
-        {"name": "Boston", "coords": [-71.0589, 42.3601]},
-        {"name": "London", "coords": [-0.1278, 51.5074]}
+        {
+            "name": "Boston", 
+            "coords": [-71.0589, 42.3601]
+        },
+        {
+            "name": "London", 
+            "coords": [-0.1278, 51.5074]
+        }
     ];
 
     // 10. The following is a D3 join pattern for adding SVG circle shapes. 
@@ -116,11 +124,12 @@ d3.json("data/world-alpha3.json").then(function(world) {
     // We define a variable for the radius of the circles that represent our cities.
     // We will use this variable in two different places below.
 
-    var circleRadius = 4;
+    var circleRadius = 10;
 
     map.selectAll("circle")
         .data(points)
-        .enter().append("circle")
+        .enter()
+        .append("circle")
         .attr("r", circleRadius)
         .attr("fill", "#201E20")
         .attr("transform", function(d) {
@@ -156,14 +165,15 @@ d3.json("data/world-alpha3.json").then(function(world) {
         // <event>.transform.k means:
         // https://github.com/d3/d3-zoom#zoom-transforms
 
-        // map.selectAll("circle")
-        //     .attr("r", function(d){
-        //         return circleRadius/e.transform.k;
-        //     });
+        map.selectAll("circle")
+            .attr("r", function(d){
+                return circleRadius/e.transform.k;
+            });
     };
 
     // Calling d3.zoom() creates a zoom behavior. Note, the .zoom() method 
     // handles both zoom and pan events.
+
     let zoom = d3.zoom()
         // This essentially constraints the user so that the user can only
         // zoom and pan within specific bounds, e.g., our window's width and height.
@@ -180,6 +190,7 @@ d3.json("data/world-alpha3.json").then(function(world) {
     // Here, we allow the zoom function which controls the zoom and pan behavior to be called
     // into the element we selected, i.e., the svg container that holds all our visualization.
     // See the beginning of this file for how the variable `svg` is defined.
+    
     svg.call(zoom);
 
 });

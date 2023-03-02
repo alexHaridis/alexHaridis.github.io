@@ -1,13 +1,13 @@
 
 // make the SVG and viewbox
-const svg = d3.select("div#chart").append("svg")
+const svg = d3.select("div#chart")
+    .append("svg")
     .attr("preserveAspectRatio", "xMinYMin meet")
     .style("background-color", "#fff")
-    .attr("viewBox", "0 0 " + window.innerWidth + " " + window.innerHeight)
-    .attr("id", "map-svg")
-    .classed("svg-content", true);
+    .attr("width", window.innerWidth)
+    .attr("height", window.innerHeight)
 
-let projectionScale = 250;
+let projectionScale = 300;
 
 // define the settings for map projection
 const projection = d3.geoOrthographic()
@@ -22,35 +22,40 @@ let geoPathGenerator = d3.geoPath().projection(projection);
 // will be used later for grid lines
 const graticule = d3.geoGraticule();
 
-// maps use multiple file types. we can store the "type" of each file along with the URL for easy loading!
-var files = [
-    { "type": "json", "file": "https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson" },
-    { "type": "csv", "file": "https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world_population.csv" }
-];
-var promises = [];
+/**
+ * Loading Data
+ */
 
-// for each file type, add the corresponding d3 load function to our promises
-files.forEach(function (d) {
-    if (d.type == "json") {
-        promises.push(d3.json(d.file));
-    } else {
-        promises.push(d3.csv(d.file));
-    }
-});
+let promises = [];
 
-// when our data has been loaded, call the draw map function
-Promise.all(promises).then(function (values) {
-    drawMap(values[0], values[1])
-});
+promises.push(d3.json("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson"));
+promises.push(d3.csv("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world_population.csv"));
+
+/**
+ * When all the data have been loaded, we call the function that draws a map in terms of them.
+ * Experiment with console.log() to see how d3.json and d3.csv load files.
+ * Promises have three states: pending, fulfilled, and rejected
+ * What you want is to have all primises being fulfilled before you move forward
+ * with working with the data you loaded.
+ * 
+ * Promise.all() is a static method that waits for all promises to be fullfilled.
+ * 
+ * For more information on JavaScript promises, see:
+ * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise
+ */
+
+Promise.all(promises).then(function(results){
+    drawMap(results[0], results[1]);
+})
 
 function drawMap(geo, data) {
-    console.log("GEO: ", geo.features)
-    console.log("dataset: ", data)
+    // console.log("GEO: ", geo.features)
+    // console.log("dataset: ", data)
 
     var colorScale = d3.scaleLinear()
         .domain(d3.extent(data, function (d) { return +d.pop }))
         .range(["white", "#9c1c25"])
-        .nice();
+        .nice(); // rounds the domain into "nice" round values
 
     // add grid lines to the globe
     svg.append("path")
@@ -62,27 +67,70 @@ function drawMap(geo, data) {
     // // Draw the map
     svg.append("g")
         .selectAll("path")
-        .data(geo.features)
+        .data(geo.features) // polygons
         .join("path")
         .attr("class", 'continent')
         // draw each country
         .attr("d", geoPathGenerator)
         // set the color of each country
-        .attr("fill", "white");
+        .attr("fill", function (d) {
+            // console.log(d);
+
+            // data is the CSV file
+            // But d refers to GeoJSON data points, features=polygons
+            let country = data.find(el => el.code == d.id);
+
+            if (country == undefined) {
+                console.log("no match: ", d.properties.name);
+                return colorScale(0);
+            } else {
+                // console.log("match: ", d.properties);
+                d.properties.pop = +country.pop;
+                // console.log("match: ", d.properties);
+                return colorScale(+country.pop);
+            }
+        })
+        .on('mouseover', function (e, d) {
+            d3.select(this)
+                .transition()
+                .duration(200)
+                .style("stroke", "black")
+        })
+        .on('mouseout', function (d) {
+            d3.select(this)
+                .transition()
+                .duration(200)
+                .style("stroke", "#d0d0d0")
+        });
 }
 
-const sensitivity = 75
+const sensitivity = 100;
 
-var drag = d3.drag().on('drag', function (event) {
+function dragged(event) {
+
+    const rotate = projection.rotate(); 
+    console.log(projection.rotate());
+    
+    const k = sensitivity / projection.scale();
+
+    projection.rotate([
+        rotate[0] + event.dx*k,
+        rotate[1] - event.dy*k
+    ]);
+    
+    geoPathGenerator = d3.geoPath().projection(projection);
+    svg.selectAll("path").attr("d", geoPathGenerator);
+
+}
+
+const zoom = d3.zoom().on('zoom', function (event) {
     // console.log(event)
-    // const rotate = projection.rotate();
-    // const k = sensitivity / projection.scale();
-    // projection.rotate([
-    //     rotate[0] + event.dx * k,
-    //     rotate[1] - event.dy * k
-    // ])
-    // geoPathGenerator = d3.geoPath().projection(projection)
-    // svg.selectAll("path").attr("d", geoPathGenerator)
-});
+    projection.scale(projectionScale * event.transform.k)
+    geoPathGenerator = d3.geoPath().projection(projection)
+    svg.selectAll("path").attr("d", geoPathGenerator)
+})
+
+var drag = d3.drag().on('drag', dragged);
 
 svg.call(drag);
+svg.call(zoom);

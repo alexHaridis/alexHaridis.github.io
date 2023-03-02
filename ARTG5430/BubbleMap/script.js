@@ -57,7 +57,9 @@ promises.push(d3.csv("data/all_day.csv"));
  */
 
 Promise.all(promises).then(function(results){
+
     drawMap(results[0], results[1]);
+
 })
 
 /**
@@ -72,6 +74,7 @@ Promise.all(promises).then(function(results){
  * @param {*} geo A GeoJSON data type storing geographical information
  * @param {*} data A CSV file representing an array of JavaScript objects
  */
+
 function drawMap(geo, data) {
 
     // Print the results from loading `geo` and `data`. Both should be data types
@@ -85,7 +88,7 @@ function drawMap(geo, data) {
 
     // Draw the map
     g.selectAll("path")
-        .data(geo.features)
+        .data(geo.features) // these are polygons
         .enter()
         .append("path")
         // draw each country
@@ -99,14 +102,14 @@ function drawMap(geo, data) {
     var scale = 1.5;
 
     g.selectAll('circle')
-        .data(data)
+        .data(data) // csv file
         .join('circle')
+        // presentational
         .style("stroke-width", 0.5)
         .style("stroke", "gray")
         .attr("fill-opacity", 0.5)
         .attr("fill", "orange")
         .attr("cx", function (d) {
-            // console.log(projection([d.longitude, d.latitude]))
             return projection([d.longitude, d.latitude])[0];
         })
         .attr("cy", function (d) { 
@@ -114,6 +117,8 @@ function drawMap(geo, data) {
         })
         .attr("r", function (d) {
             // Change the `scale` parameter to increase/decrease radius
+            // // take the magnitude of the fire, and pass in rScale function
+            // d.mag --->  [0.1, 20]
             return rScale(d.mag)*scale;
         })// Tooltip
         .on('mouseover', function (e, d) {

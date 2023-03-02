@@ -1,0 +1,19 @@
+.continent {
+	/* fill: #ededed; */
+	stroke: #d0d0d0;
+	stroke-width: 0.8;
+    fill:#A0A0A0;
+}
+
+.tooltip {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    visibility: hidden;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: bold;
+    font-size: 16pt;
+    background-color:rgba(246,201,0,0.4);
+    padding: 2px;
+    pointer-events: none;
+}
