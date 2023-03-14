@@ -1,5 +1,7 @@
 /*
-QUESTION 1:
+TOOLTIP implementation 
+
+Re: Gapminder dataset used on 02-21 to create a scatterplot
 
 Examine the d3.csv().then() pattern below
 and discuss the following questions:
@@ -394,7 +396,7 @@ d3.csv("./data/gapminder.csv").then(function(data) {
     print method to test each of the computations separately.
 
     */
-   
+
     const xAxisLabel = svg.append("text")
         .attr("class","axisLabel")
         .attr("x", width/2)
