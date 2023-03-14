@@ -303,6 +303,7 @@ d3.csv("./data/gapminder.csv").then(function(data) {
         labels.
 
     */
+   
     const xAxis = svg.append("g")
         .attr("class","axis")
         .attr("transform", `translate(0,${height-margin.bottom})`)

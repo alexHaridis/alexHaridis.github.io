@@ -1,51 +1,50 @@
 /*
-TOOLTIP implementation 
 
-Re: Gapminder dataset used on 02-21 to create a scatterplot
+ARTG5330 Visualization Technologies 1
+    February 21, 2023
+    Spring Semester
+    Week 9
 
-Examine the d3.csv().then() pattern below
-and discuss the following questions:
-    - What is the "./data/gapminder.csv" inside of
-        inside of the parentheses for d3.csv()
-        referring to?
+    TOOLTIP implementation.
+    Re: Gapminder dataset used on 02-21 to create a scatterplot
 
-    A: It is referring to a dataset given in csv filetype provided by
+    - What is the "./data/gapminder.csv" inside of the parentheses 
+    for d3.csv() referring to?
+
+    It is referring to a dataset given in csv filetype provided by
     Gapminder that is stored locally inside the folder called "data".
     You need to provide the exact local path to that csv file to
     fetch it with the d3.csv() method.
 
-    - What is the parameter named `data` inside of
-        the function expression within .then()
-        referring to?
+    - The parameter named `data` inside of the function expression .then()
 
-    A: The parameter named `data` binds to the csv file
+    The parameter named `data` binds to the csv file
     you fetch with the d3.csv method. Thus, it refers
     to the gapminder.csv file.
 
-    - What kind of JS data structure is `data`?
+    - What kind of JavaScript data structure is `data`?
 
-    A: An array of objects.
+    An array of objects.
 
     - Where does the entire d3.csv().then() pattern
         open and close in this document?
 
-    A: Use the VSCode interface to locate the opening
+    Use the VSCode interface to locate the opening
     and closing of the d3.csv().then() pattern.
 
     You may find it useful to examine the contents
-    of `data` with console.log(data)
+    of `data` with console.log(data).
 
 */
 
 d3.csv("./data/gapminder.csv").then(function(data) {
 
     /*
-    DEFINE DIMENSIONS OF SVG + CREATE SVG CANVAS
+    1. DEFINE DIMENSIONS OF SVG + CREATE SVG CANVAS
 
-    QUESTION 2:
         - What is document.querySelector("#chart") doing?
 
-        A: The document.querySelector() method is returning the
+        The document.querySelector() method is returning the
         FIRST element within your html document that matches the
         specified CSS selector string, i.e., the ID "#chart". 
         See here for more info on CSS selectors: 
@@ -55,14 +54,18 @@ d3.csv("./data/gapminder.csv").then(function(data) {
             elements in the DOM (Document Object Model).
             What do these properties measure?
 
-        A: These properties measure the inner width and inner height
+        These properties measure the inner width and inner height
         of an HTML element in pixels. In this example, they are 
         measuring the width and height of the div element in the html page
         that encapsulates the chart. Note that these values are calculated
         according to how the chart is displayed in the browser. Thus, the 
         values will change if you resize your browser's window. You can
         test this behavior using console.log() prints.
+
+        Note: document.clientWidth is different from window.innerWidth
+        The d
     */
+
     const width = document.querySelector("#chart").clientWidth;
     const height = document.querySelector("#chart").clientHeight;
 
@@ -72,16 +75,15 @@ d3.csv("./data/gapminder.csv").then(function(data) {
         .attr("height", height);
 
 
-    /* FILTER THE DATA 
+    /* 
+    2. FILTER THE DATA 
     
     This data set is large and includes data from multiple years.
 
-    Let's filter the data to only select data for the year 2007,
-    and then subsequently use that year's data to draw the scatter plot.
+    Let's filter the data to only select data for the United States,
+    and then subsequently use those data to draw the bar chart.
 
     To filter the data, we can use the .filter() method for arrays.
-
-    QUESTION 3:
 
     `.filter()` is a JavaScript array method.
     - What does this method do/how does this method work?
@@ -90,7 +92,7 @@ d3.csv("./data/gapminder.csv").then(function(data) {
         a function expression with a parameter
         named `d`. What is `d` a reference to?
 
-    A: The .filter() method returns a new array of objects
+    The .filter() method returns a new array of objects
     that is a SUBSET of the array of objects stored in `data`. 
     The purpose of the method is to filter out rows of the original
     dataset that do not satisfy a specific "test". This test is
@@ -99,18 +101,18 @@ d3.csv("./data/gapminder.csv").then(function(data) {
 
     The parameter named `d` is a reference to the rows
     of the input CSV file.
-
+    
     - Does that parameter *have to be* named `d`?
         Can it be named something else?
 
-    A: No. You can use a different symbol.
-
+    No. You can use a different symbol.
+    
     - What is the purpose of the statement inside
         the function expression? What is this doing?
 
         return d.year === '2007';
 
-    A: As you access each row of the csv file using the
+    As you access each row of the csv file using the
     `d` paramater, you retrieve the value d.year for
     each row and test if it is (strictly) equal to the
     provided string, `2007`. The row passes the
@@ -119,7 +121,7 @@ d3.csv("./data/gapminder.csv").then(function(data) {
     - Why are we storing the result of data.filter(...)
         inside a variable (filtered_data)?
 
-    A: We are storing the result in a new variable called
+    We are storing the result in a new variable called
     filtered_data because we want to keep the filtered data
     separate from the original data we have stored in `data`.
     Also, we want to reuse the filtered_data in multiple
@@ -133,7 +135,7 @@ d3.csv("./data/gapminder.csv").then(function(data) {
 
 
     /*
-    DETERMINE MIN AND MAX VALUES OF VARIABLES
+    3. DETERMINE MIN AND MAX VALUES OF VARIABLES
 
     In the following section, we'll use the methods d3.min() and d3.max()
     to calculate minimum and maximum values of the variables in our data set.
@@ -143,12 +145,10 @@ d3.csv("./data/gapminder.csv").then(function(data) {
     named inside those objects. This helps make it easier to refer to these
     values later in our code.
 
-
-    QUESTION 4:
         - What does d3.min() do? What does d3.max() do?
             What are the 2 arguments we supply to d3.min()/d3.max()?
 
-        A: The functions d3.min() and d3.max() return the minimum and
+        The functions d3.min() and d3.max() return the minimum and
         maximum numerical values stored in an array. Here, the first
         argument is the filtered dataset we created just above and the
         second argument is an ACCESSOR function. The purpose of this
@@ -167,12 +167,12 @@ d3.csv("./data/gapminder.csv").then(function(data) {
             the function expression has a parameter named `d`.
             What is `d` a reference to?
 
-        A: See above answer.
+        See above answer.
 
         - Why is there a plus sign (+) in front of d.gdpPercap,
             d.lifeExp, and d.pop?
 
-        A: See above answer.
+        See above answer.
 
     */
 
@@ -191,15 +191,12 @@ d3.csv("./data/gapminder.csv").then(function(data) {
         max: d3.max(filtered_data, function(d) { return +d.pop; })
     };
 
-
-
     /*
-    CREATE SCALES
+    4. CREATE SCALES
 
     We'll use the computed min and max values to create scales for
     our scatter plot.
 
-    QUESTION 5:
         - What does d3.scaleLinear() do?
 
         A: The .scaleLinear() function in D3 is a JavaScript function that
@@ -282,26 +279,24 @@ d3.csv("./data/gapminder.csv").then(function(data) {
 
 
     /*
-    DRAW AXES
-
-    QUESTION 6:
+    5. DRAW AXES
     
     The following chunks of code draw 2 axes -- an x- an y-axis.
         - What is the purpose of the "g" element being appended?
 
-        A: The "g" element creates a new DOM element that is appended
+        The "g" element creates a new DOM element that is appended
         to an svg container. This element will contain the axes for
         our visualization.
 
         - What is the purpose of the "transform" attribute being defined?
 
-        A: It "pushes" upwards the position of the horizontal axis by
+        It "pushes" upwards the position of the horizontal axis by
         calculating the difference between `height` and `margin.bottom`.
         It is essentially a method of positioning the axis element.
 
         - What do the d3.axisBottom() and d3.axisLeft() methods do?
 
-        A: The .axisBottom() is a built-in D3 function that draws a bottom
+        The .axisBottom() is a built-in D3 function that draws a bottom
         horizontal axis and the .axisLeft() is a built-in D3 function that
         draws a left vertical axis. D3 axes are made of lines, ticks, and
         labels.
@@ -320,19 +315,17 @@ d3.csv("./data/gapminder.csv").then(function(data) {
 
 
     /*
-    DRAW POINTS
+    6. DRAW POINTS
 
     In this scatter plot, each circle will represent a single country;
     the horizontal position of the circle will represent GDP per capita,
     vertical position will represent life expectancy, color will represent
     continent, and radius will represent population
 
-    QUESTION 7:
-
     The following chunk of code is the standard D3 data join pattern.
         - What is the purpose of the pattern svg.selectAll().data().enter().append()?
 
-        A: This is a standard pattern for joining data with D3. 
+        This is a standard pattern for joining data with D3. 
         The purpose of this pattern is to JOIN data with DOM elements, 
         such as SVG basic shapes (e.g., rect). The pattern starts with
         .selectALl() that selects all the currently existing shapes and
@@ -351,12 +344,12 @@ d3.csv("./data/gapminder.csv").then(function(data) {
             "accessor functions." In each accessor function, what is
             the parameter named `d` a reference to?
 
-        A: A row in the CSV dataset.
+        A row in the CSV dataset.
 
         - Inside each accessor function, what is the purpose of
             each "return ___;" statement?
 
-        A: To return a value that can be associated with the given variable. 
+        To return a value that can be associated with the given variable. 
         You need an accessor function in order to go through all the available
         data points.
 
@@ -372,18 +365,16 @@ d3.csv("./data/gapminder.csv").then(function(data) {
             .attr("fill", function(d) { return fillScale(d.continent); });
     
     /*
-    DRAW AXIS LABELS
-
-    QUESTION 8:
+    7. DRAW AXIS LABELS
 
     The chunks of code below draw text labels for the axes.
 
-    Examine the yAxisLabel. What is going on with the 
+    - Examine the yAxisLabel. What is going on with the 
     "transform", "x", and "y" attributes, in terms of
     how their values are computed to control the rotated
     placement of the label?
 
-    A: For `yAxisLabel`, the tricky point is understanding how
+    For `yAxisLabel`, the tricky point is understanding how
     the coordinate system works. Here, the negative `x` value controls
     how the axis label moves from TOP TO BOTTOM. The positive `y` value
     controls how it moves from LEFT TO RIGHT.
@@ -411,7 +402,7 @@ d3.csv("./data/gapminder.csv").then(function(data) {
         .text("Life Expectancy (Years)");
 
     /* 
-        ADDING A TOOLTIP
+        8. ADDING A TOOLTIP
         
         We begin by creating a new div element inside the #chart container, 
         giving it class 'tooltip'; note that this newly created div inherits 
