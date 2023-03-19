@@ -127,81 +127,81 @@ let urlJSON = "https://datausa.io/api/data?drilldowns=State&measures=Population&
 
 // d3.csv("datasets/cities-sm.csv").then(function(data){
     
-    // This accesses the first row of the csv dataset
+//     // This accesses the first row of the csv dataset
 
-    // console.log(data);
+//     console.log(data);
 
-    // Change values using the .forEach() method that loops
-    // through the rows of the dataset. In this way, you 
-    // can alter values of individual keys selectively.
+//     // Change values using the .forEach() method that loops
+//     // through the rows of the dataset. In this way, you 
+//     // can alter values of individual keys selectively.
 
-    //  Here, we are casting strings into numbers (i.e., the strings
-    //  that represent numbers but are loaded as strings).
-    //  We can do that in several ways. For example, two methods are:
-    //      a. Use the built-in parseFloat() javascript function
-    //      b. Use the unary operator +
-    //  The following function uses method (b).
+//     //  Here, we are casting strings into numbers (i.e., the strings
+//     //  that represent numbers but are loaded as strings).
+//     //  We can do that in several ways. For example, two methods are:
+//     //      a. Use the built-in parseFloat() javascript function
+//     //      b. Use the unary operator +
+//     //  The following function uses method (b).
 
-    // data.forEach( function(d) {
+//     data.forEach( function(d) {
 
-    //     // Here, we alter the keys "population" and "land area" only.
-    //     // Thus, we leave "city" and "state" as they are.
-    //     d.population = +d.population;
-    //     d["land area"] = +d["land area"];
+//         // Here, we alter the keys "population" and "land area" only.
+//         // Thus, we leave "city" and "state" as they are.
+//         d.population = +d.population;
+//         d["land area"] = +d["land area"];
 
-    // });
+//     });
 
-    // console.log(data);
+//     console.log(data);
 
-    // Filtering Data 
+//     // Filtering Data 
     
-    // In the following, we use the JS .filter() method to return a row 
-    // filled with elements that pass a particular test provided by a 
-    // custom function.
+//     // In the following, we use the JS .filter() method to return a row 
+//     // filled with elements that pass a particular test provided by a 
+//     // custom function.
 
-    // let filtered_data = data.filter(function(d) {
+//     let filtered_data = data.filter(function(d) {
 
-    //     // Return the object iff its key is equal to a specified string
-    //     return d.state === "NY";
+//         // Return the object iff its key is equal to a specified string
+//         return d.state === "NY";
 
-    // })
+//     })
 
-    // console.log(filtered_data);
+//     console.log(filtered_data);
 
-    // Finding MINIMUM or MAXIMUM value of a numerical variable
+//     // Finding MINIMUM or MAXIMUM value of a numerical variable
 
-    // Here, the methods d3.min() and d3.max() require 2 arguments:
-    // the array/object to be analyzed and an "accessor" function that
-    // returns the object key value to be used for the analysis.
+//     // Here, the methods d3.min() and d3.max() require 2 arguments:
+//     // the array/object to be analyzed and an "accessor" function that
+//     // returns the object key value to be used for the analysis.
 
-    // function getValue(d) {
-    //     // Retrieves only the value in the column "population"
-    //     return +d.population;
-    // }
+//     function getValue(d) {
+//         // Retrieves only the value in the column "population"
+//         return +d.population;
+//     }
 
-    // const min_pop = d3.min(data, getValue);
-    // const max_pop = d3.max(data, getValue);
+//     const min_pop = d3.min(data, getValue);
+//     const max_pop = d3.max(data, getValue);
 
-    // console.log(min_pop, max_pop);
+//     console.log(min_pop, max_pop);
 
-    // GROUPING DATA
+//     // GROUPING DATA
 
-    // In the following, we use the JS .group method for arrays.
-    // The method groups values by a particular key. It returns a map from 
-    // key to the corresponding array of values from the input.
+//     // In the following, we use the JS .group method for arrays.
+//     // The method groups values by a particular key. It returns a map from 
+//     // key to the corresponding array of values from the input.
 
-    // Here, we group the data by "city".
+//     // Here, we group the data by "city".
 
-    // let grouped_data = d3.group(data, function(d) {
+//     let grouped_data = d3.group(data, function(d) {
 
-    //    return d.city;
+//        return d.city;
 
-    // });
+//     });
 
-    // Returns a Map
-    // console.log(grouped_data);
+//     // Returns a Map object
+//     console.log(grouped_data);
 
-    // Then, you can query the map for a particular group.
-    // console.log(grouped_data.get("boston"));
+//     // Then, you can query the map for a particular group.
+//     console.log(grouped_data.get("boston"));
 
 // });

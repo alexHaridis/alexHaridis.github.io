@@ -53,6 +53,7 @@ function draw() {
 
     ctx.lineWidth = 10;
     ctx.lineCap = "butt"; // "square", "butt", "round"
+    
     ctx.beginPath();
     ctx.moveTo(100, 100);
     ctx.lineTo(120, 120);

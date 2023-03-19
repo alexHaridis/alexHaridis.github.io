@@ -26,6 +26,18 @@ html, body {
   font-size: 10pt;
 }
 
+.chartText {
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-size: 14pt;
+  font-weight: normal;
+  text-anchor: middle;
+}
+
+.grid-lines {
+  stroke: gray;
+  stroke-opacity: 0.5;
+}
+
 /* Style properties for tooltips */
 .tooltip {
   position: absolute;
@@ -41,7 +53,6 @@ html, body {
   font-size: 11pt; */
 }
 
-h1{
-  padding-left: 40px;
-  text-align: left;
+div{
+  text-align: center;
 }
