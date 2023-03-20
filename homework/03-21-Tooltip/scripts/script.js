@@ -200,8 +200,8 @@ function drawScatterPlot(data) {
         // of the tooltip by adding small +- values (e.g., +20, -10). 
         // Note, the tooltip's origin is its top-left point.
 
-        let x = +d3.select(this).attr("cx");
-        let y = +d3.select(this).attr("cy");
+        let x = +d3.select(this).attr("cx") + 10;
+        let y = +d3.select(this).attr("cy") + 20;
 
         // Format the display of the numbers,
         // using d3.format()
@@ -218,7 +218,12 @@ function drawScatterPlot(data) {
 
         // Optionally, visually highlight the selected circle
         points.attr("opacity", 0.1);
-        d3.select(this).attr("opacity", 1).raise();
+        d3.select(this)
+            .attr("opacity", 1)
+            .style("stroke", "black")
+            .style("stroke-width", "1px")
+            // this makes the selected circle "pop out" and stand over the rest of the circles
+            .raise();
 
     }).on("mouseout", function() {
 

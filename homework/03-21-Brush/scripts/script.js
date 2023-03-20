@@ -1,16 +1,16 @@
-/*
+/**
 
-ARTG5330 Visualization Technologies 1
-    February 21, 2023
-    Spring Semester
-    Week 9
+    ARTG5330 Visualization Technologies 1
+        February 21, 2023
+        Spring Semester
+        Week 9
 
-    TOOLTIP implementation.
-    Re: Based on the Gapminder dataset used on 02-21 to create a scatterplot
-            "Life Expectancy over GDP per capita over, Year 2007"
+        TOOLTIP implementation.
+        Re: Based on the Gapminder dataset used on 02-21 to create a scatterplot
+                "Life Expectancy over GDP per capita over, Year 2007"
 */
 
-/*
+/**
     1. DEFINE DIMENSIONS OF SVG + CREATE SVG CANVAS
 */
 
@@ -66,16 +66,16 @@ Promise.all(promise).then(function(results){
 
 function drawScatterPlot(data) {
 
-    /* 
-    2. FILTER THE DATA 
+    /**
+        2. FILTER THE DATA 
     */
 
     let filtered_data = data.filter(function(d) {
         return d.year === '2007';
     });
 
-    /*
-    3. DETERMINE MIN AND MAX VALUES OF VARIABLES
+    /**
+        3. DETERMINE MIN AND MAX VALUES OF VARIABLES
     */
 
     const gdpPercap = {
@@ -93,11 +93,11 @@ function drawScatterPlot(data) {
         max: d3.max(filtered_data, function(d) { return +d.pop; })
     };
 
-    /*
-    4. CREATE SCALES
+    /**
+        4. CREATE SCALES
 
-    We'll use the computed min and max values to create scales for
-    our scatter plot.
+        We'll use the computed min and max values to create scales for
+        our scatter plot.
     */
 
     const margin = {top: 50, left: 100, right: 50, bottom: 100};
@@ -119,10 +119,10 @@ function drawScatterPlot(data) {
         .range(['#1b9e77','#d95f02','#7570b3','#e7298a','#66a61e']);
 
 
-    /*
-    5. DRAW AXES
-    
-    The following chunks of code draw 2 axes -- an x- an y-axis.
+    /**
+        5. DRAW AXES
+        
+        The following chunks of code draw 2 axes -- an x- an y-axis.
     */
 
     const xAxis = svg.append("g")
@@ -135,7 +135,7 @@ function drawScatterPlot(data) {
         .attr("transform", `translate(${margin.left},0)`)
         .call(d3.axisLeft().scale(yScale));
     
-    /*
+    /**
         6. DRAW POINTS
 
         In this scatter plot, each circle will represent a single country;
@@ -155,10 +155,10 @@ function drawScatterPlot(data) {
             .attr("r", function(d) { return rScale(d.pop); })
             .attr("fill", function(d) { return fillScale(d.continent); });
 
-    /*
-    7. DRAW AXIS LABELS
+    /**
+        7. DRAW AXIS LABELS
 
-    The chunks of code below draw text labels for the axes.
+        The chunks of code below draw text labels for the axes.
     */
 
     const xAxisLabel = svg.append("text")
@@ -180,13 +180,28 @@ function drawScatterPlot(data) {
         .attr("y", margin.top)
         .text("Year 2007");
 
-    /*
+    /**
         BRUSH Interactivity Implementation
+
+        D3.js brush() function 
+        See:
+                https://github.com/d3/d3-brush
+                https://www.geeksforgeeks.org/d3-js-brush-function/
+
+        The following implementation is using the .map function over
+        the initial dataset to create a new dataset that has one additional
+        variable/column called "selected" which is a Boolean value (true/false).
+        This new variable determines if a circle is selected or not based on 
+        our brushes selected region / window on the scatterplot.
+        
+        For a different implementation of brushes, one that uses the .classed() function
+        along with a separate CSS class, see:
+                 https://d3-graph-gallery.com/graph/interactivity_brush.html
     */
 
     const brush = d3.brush() // // Add the brush feature using the d3.brush function
         // initialise the brush area: start at 0,0 and finishes at width,height: it means I select the whole graph area
-        .extent([[0,0], [width,height]])
+        .extent([[margin.left,margin.top], [width-margin.right,height-margin.bottom]])
         // Can be shortened to .on('start brush end', brushed)
         // Each time the brush selection changes, triggers the 'brushed' function
         .on("start", brushed)
@@ -212,20 +227,24 @@ function drawScatterPlot(data) {
                     };
                 });
             
-            // D3 Data Join
+            // D3 Data Join:
             //      Update circle's fill style based on whether a circle is "selected" or not
             svg.selectAll("circle")
-            .data(brushedData)
-            .join(
-                function(enter){
-                },
-                function(update){
-                    return update
-                        .style("fill", d => d.selected ? fillScale(d.continent) : "lightgray");
-                },
-                function(exit){
-                }
-            );
+                .data(brushedData)
+                .join(
+                    function(enter){
+                        // nothing to add
+                    },
+                    function(update){
+                        return update
+                            .style("fill", d => d.selected ? fillScale(d.continent) : "lightgray")
+                            .style("stroke", d => d.selected ? "black" : "none")
+                            .style("stroke-width", d => d.selected ? "0.8px" : "none");
+                    },
+                    function(exit){
+                        // nothing to remove
+                    }
+                );
         }
     }
 
@@ -245,5 +264,8 @@ function drawScatterPlot(data) {
     }
 
     // Add the brush to the graph's svg container
-    svg.call(brush);
+    // Important: You must append "g" first and then call the brush function
+    svg.append("g")
+        .attr("class", "d3-brush")
+        .call(brush);
 }

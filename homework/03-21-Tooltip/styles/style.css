@@ -48,9 +48,34 @@ html, body {
   /* Adjust sizes, fonts, etc., just for the tooltip
   based on your personal preferences */
 
-  /* padding: 2px;
+  border: solid;
+  border-width: 2px;
+  border-radius: 5px;
+  stroke-width: 0.5;
+  padding: 5px;
   background-color: rgba(255,255,255,0.8);
-  font-size: 11pt; */
+  font-size: 10pt;
+}
+
+.button {
+  background-color: #4CAF50; /* Green */
+  /* border: none; */
+  padding: 10px 16px;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 10px;
+}
+
+.button:hover {
+  background-color: white;
+  color: #4c9ed9;
+  border: 1px solid #111;
+}
+
+.space {
+  margin-top: 40px;
 }
 
 div{
