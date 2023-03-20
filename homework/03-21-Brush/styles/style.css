@@ -53,6 +53,13 @@ html, body {
   font-size: 11pt; */
 }
 
+/* Style properties for brushed points */
+.selected {
+  opacity: 1 !important;
+  stroke: black;
+  stroke-width: 1px;
+}
+
 div{
   text-align: center;
 }

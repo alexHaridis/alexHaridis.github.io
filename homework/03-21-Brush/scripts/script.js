@@ -150,9 +150,7 @@ function drawScatterPlot(data) {
         .data(filtered_data)
         .enter()
         .append("circle")
-            .attr("cx", function(d) { 
-                return xScale(d.gdpPercap); 
-            })
+            .attr("cx", function(d) { return xScale(d.gdpPercap); })
             .attr("cy", function(d) { return yScale(d.lifeExp); })
             .attr("r", function(d) { return rScale(d.pop); })
             .attr("fill", function(d) { return fillScale(d.continent); });
@@ -186,9 +184,11 @@ function drawScatterPlot(data) {
         BRUSH Interactivity Implementation
     */
 
-    const brush = d3.brush()
+    const brush = d3.brush() // // Add the brush feature using the d3.brush function
+        // initialise the brush area: start at 0,0 and finishes at width,height: it means I select the whole graph area
+        .extent([[0,0], [width,height]])
         // Can be shortened to .on('start brush end', brushed)
-        // D3's .on() requires multiple events to be separated with spaces.
+        // Each time the brush selection changes, triggers the 'brushed' function
         .on("start", brushed)
         .on("brush", brushed)
         .on("end", brushed);
@@ -196,23 +196,54 @@ function drawScatterPlot(data) {
     // Like all event listeners, this one receive the "event" as the first parameter. 
     // As a custom event, however, it has some non-standard properties with the underlying 
     // input event stored in `event.sourceEvent. See https://github.com/d3/d3-brush#brush-events for more.
+    // 
+    // The following function uses the d3 selection.classed() function to set a specific
+    // class to the selected circles in the scatterplot.
+    // See:
+    //      https://www.geeksforgeeks.org/d3-js-selection-classed-function/
     function brushed(event) {
-        // [[x0, y0], [x1, y1]] for 2D brushes; [x0, x1] or [y0, y1] for 1D brushes
         const coords = event.selection;
         if (coords) {
-            const [[x0, y0], [x1, y1]] = coords;
-            const brushedData = data.map(d => {
-                return {
-                    ...d, 
-                    selected: x0 <= xScale(d.gdpPercap) && xScale(d.gdpPercap) < x1 && y0 <= yScale(d.lifeExp)
-                    && yScale(d.lifeExp) < y1
-                };
-            });
-            // wrappedDataJoin(brushedData);
+            const brushedData = filtered_data.map(
+                d => {
+                    return {
+                        ...d,
+                        selected: isBrushed(coords, xScale(d.gdpPercap), yScale(d.lifeExp))
+                    };
+                });
+            
+            // D3 Data Join
+            //      Update circle's fill style based on whether a circle is "selected" or not
+            svg.selectAll("circle")
+            .data(brushedData)
+            .join(
+                function(enter){
+                },
+                function(update){
+                    return update
+                        .style("fill", d => d.selected ? fillScale(d.continent) : "lightgray");
+                },
+                function(exit){
+                }
+            );
         }
     }
 
-    // function wrappedDataJoin(data = data) {
-         
-    // }
+    /**
+     * Function that returns TRUE or FALSE depending on whether a circle in the graph
+     * is in the selected region or not.
+     * @param {*} brush_coords The coordinates of the user's selection
+     * @param {*} xs The x coordinate on the graph's x-axis
+     * @param {*} ys The y coordinate on the graph's y-axis
+     * @returns True or False
+     */
+    function isBrushed(brush_coords, xs, ys) {
+        // [[x0, y0], [x1, y1]] for 2D brushes; [x0, x1] or [y0, y1] for 1D brushes
+        const [[x0, y0], [x1, y1]] = brush_coords;
+        // This return TRUE or FALSE depending on if the points is in the selected area
+        return x0 <= xs && xs < x1 && y0 <= ys && ys < y1;
+    }
+
+    // Add the brush to the graph's svg container
+    svg.call(brush);
 }
