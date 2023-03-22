@@ -41,6 +41,7 @@ html, body {
 /* Style properties for tooltips */
 .tooltip {
   position: absolute;
+  /* Controls whether or not the tooltip is active */
   visibility: hidden;
   top: 0px;
   left: 0px;

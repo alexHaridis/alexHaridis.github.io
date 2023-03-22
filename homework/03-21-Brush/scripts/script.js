@@ -200,13 +200,15 @@ function drawScatterPlot(data) {
     */
 
     const brush = d3.brush() // // Add the brush feature using the d3.brush function
-        // initialise the brush area: start at 0,0 and finishes at width,height: it means I select the whole graph area
+        // initialise the brush area: 
+        // Start at left margin, top margin and finishes at width,height: 
+        //          it means I select the whole graph area
         .extent([[margin.left,margin.top], [width-margin.right,height-margin.bottom]])
         // Can be shortened to .on('start brush end', brushed)
         // Each time the brush selection changes, triggers the 'brushed' function
         .on("start", brushed)
         .on("brush", brushed)
-        .on("end", brushed);
+        .on("end", brushed); // instead of keeping data poiints grey, it reverts their colors back to original
     
     // Like all event listeners, this one receive the "event" as the first parameter. 
     // As a custom event, however, it has some non-standard properties with the underlying 

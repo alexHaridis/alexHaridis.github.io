@@ -29,16 +29,17 @@ body {
 and resizing with the screen is to use the CSS flexbox properties.
 See the following guide:
       https://css-tricks.com/snippets/css/a-guide-to-flexbox/ */
+
 .section {
   display: flex;
-  padding: 20px;
+  padding: 10px;
 }
 
 .section p {
   flex: 1;
-  padding: 20px;
+  padding: 10px;
 }
 
 iframe {
-  border: 1;
+  border: 0;
 }

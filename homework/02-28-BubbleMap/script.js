@@ -220,6 +220,7 @@ function drawMap(geo, data) {
             });
     }
 
+    // D3 Built-in method for Zooming
     var zoom = d3.zoom()
         .translateExtent([[0,0], [windowWidth, windowHeight]])
         .scaleExtent([1, 15])

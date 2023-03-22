@@ -1,7 +1,7 @@
 /*
 
 ARTG5330 Visualization Technologies 1
-    March 21, 2023
+    February 21, 2023
     Spring Semester
     Week 9
 
@@ -39,17 +39,20 @@ const tooltip = d3.select("#chart")
 
 
 // Load the Gapminder dataset
+
 // REMINDER: d3.csv(), and all other data loading methods in D3 v7, return a "promise" object not a dataset/
 
 // Put the d3.csv() method inside an array because the static method Promise.all() below
 // requires an "iterable" object as input argument.
+
 let promise = [d3.csv("./data/gapminder.csv")];
 
 /**
  * When all the data have been loaded, we call the function that draws the scatterplot
  * 
  * Experiment with console.log() to see how d3.csv load files.
- * Promises have three states: pending, fulfilled, and rejected
+ * Promises have three states: 
+ *          pending, fulfilled, and rejected
  * What you want is to have all primises being fulfilled before you move forward
  * with working with the data you loaded.
  * 
@@ -59,7 +62,7 @@ let promise = [d3.csv("./data/gapminder.csv")];
  *      https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise
  */
 
-Promise.all(promise).then(function(results){
+Promise.all(promise).then(function(results) {
     // So you need to specify [0], so the functions works with the dataset not an array
     drawScatterPlot(results[0]);
 })
@@ -132,7 +135,7 @@ function drawScatterPlot(data) {
 
     const yAxis = svg.append("g")
         .attr("class","axis")
-        .attr("transform", `translate(${margin.left},0)`)
+        .attr("transform", `translate(${margin.left}, 0)`)
         .call(d3.axisLeft().scale(yScale));
     
     /*
@@ -200,8 +203,8 @@ function drawScatterPlot(data) {
         // of the tooltip by adding small +- values (e.g., +20, -10). 
         // Note, the tooltip's origin is its top-left point.
 
-        let x = +d3.select(this).attr("cx") + 10;
-        let y = +d3.select(this).attr("cy") + 20;
+        let x = +d3.select(this).attr("cx");
+        let y = +d3.select(this).attr("cy");
 
         // Format the display of the numbers,
         // using d3.format()
