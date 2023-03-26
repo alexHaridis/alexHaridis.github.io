@@ -1,0 +1,24 @@
+div {
+    text-align: center;
+}
+
+.button {
+    background-color: #4CAF50; /* Green */
+    /* border: none; */
+    padding: 10px 16px;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 10px;
+}
+
+.button:hover {
+    background-color: white;
+    color: #4c9ed9;
+    border: 1px solid #111;
+}
+
+.space {
+    margin-top: 20px;
+}

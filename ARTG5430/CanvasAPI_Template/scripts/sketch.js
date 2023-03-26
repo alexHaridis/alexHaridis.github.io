@@ -1,26 +1,25 @@
 /**
- * The rest of the methods used below are all methods taken from the
- * CanvasRenderingContext2D object.
+ * This is a basic TEMPLATE for developing applications with the HTML5 Canvas API.
+ * 
+ * The main drawing functionality is implemented within the canvasApp() function.
+ * The canvasApp() function is called once the browser listens to the event that
+ * loads the page. This is done by adding the event listerner "load":
+ *          window.addEventListener("load", eventWindowLoaded, false);
+ * 
+ * Resources:
+ *      https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API
+ *      
  */
 
 function canvasApp() {
 
+    /**
+     * Encapsulate within the following function anything that you want
+     * to draw in your browser within the specified region allocated for canvas.
+     */
     function drawScreen () {
 
-        canvas.onmousedown = canvas.onmousemove = function(e) {
-
-            if (e.buttons) {
-
-                ctx.strokeStyle = 'black';
-                ctx.fillStyle = 'white';
-                ctx.beginPath();
-                ctx.arc(e.offsetX, e.offsetY, 20, 0, 2 * Math.PI);
-                ctx.fill();
-                ctx.stroke();
-                
-            }
-
-        }
+        // Anything you need to draw is based on ctx.<your drawing methods> 
 
     }
 
@@ -48,15 +47,21 @@ function canvasApp() {
      * The 2D context represents a flat Cartesian surface whose origin (0,0) 
      * is at the top left corner, with the coordinate space having x values 
      * increasing when going right, and y values increasing when going down.
+     * 
+     * See:
+     * 
+     *      https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D
      */
 
     const ctx = canvas.getContext("2d");
 
+    // Call the drawScreen() function at the end of the main canvasApp()
     drawScreen();
 
 }
 
 window.addEventListener("load", eventWindowLoaded, false);
+
 function eventWindowLoaded () {
     canvasApp();
 }

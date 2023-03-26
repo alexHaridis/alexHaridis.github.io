@@ -225,6 +225,7 @@ function drawScatterPlot(data) {
                 d => {
                     return {
                         ...d,
+                        // One additional field
                         selected: isBrushed(coords, xScale(d.gdpPercap), yScale(d.lifeExp))
                     };
                 });

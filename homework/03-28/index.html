@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="./styles/style.css">
+        <script src="https://d3js.org/d3.v7.min.js"></script>
+    </head>
+    <body>
+        <div id="chart">
+            <h2>Bar Chart w. Colors</h2>
+        </div>
+
+        <svg id="chart">
+            <defs>
+                <linearGradient id="colorGradient">
+                </linearGradient>
+            </defs>
+            <g id="shapes"></g>
+            <g id="x"></g>
+            <g id="y"></g>
+            <g id="scale">
+                <rect id="scaleRect" fill="url(#colorGradient)" stroke="black" />
+                <g id="scaleAxis"></g>
+            </g>
+            <g id="legend"></g>
+        </svg>
+
+        <script src="scripts/script.js"></script>
+    </body>
+</html>

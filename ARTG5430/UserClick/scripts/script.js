@@ -4,6 +4,11 @@ const width = document.querySelector("#cntr").clientWidth;
 // Limit of Count
 const LIMIT = 10;
 
+// This is our dataset
+// An array of integers: 
+//      A JavaScript array that holds one number
+//
+// A datapoint is a single number
 const counter = [1];
 
 const svg = d3.select("#cntr")
@@ -22,6 +27,7 @@ function dataJoin(data) {
     const g = svg.selectAll("g")
         .data(data)
         .join("g")
+            // Positioning of the visualization
             .attr("transform", "translate(" + width/2 + ", 20)")
             // Multiply opacity by 0.1, so that after 10 'clicks' you reach 1.0 opacity (i.e., 100%)
             .style("opacity", function(d) { return d * 0.1 } );
@@ -42,22 +48,30 @@ function dataJoin(data) {
     // Event callbacks.
     // Notice in the following that they are much simpler now as they don't
     // change a visualization's appearance directly.
-    
+
     g.on("click", function(event, d) {
         // This is increasing the content of array by one
+        // Your data changed.
         counter[0] = Math.min(++d, LIMIT);
+
+        // Call the function to update the visualization specific elements
+        // using the altered dataset.
         return dataJoin(counter);
     });
 
     g.on("dblclick", function(event, d) {
         // Resetin counter array to 1
         counter[0] = 1;
+
+        // Call the function to update the visualization specific elements
+        // using the altered dataset.
         return dataJoin(counter);
     });
 
 }
 
 // This is calling a function
+// counter is the variable holding your dataset
 dataJoin(counter);
 
 
@@ -69,8 +83,8 @@ dataJoin(counter);
 //     // Store the counter's state on a DOM node attribute.
 //     .attr("counter", 1); 
 
-// Attach an event listener to the <g> that is called when any element within it is clicked.
-// This function is passed the input event and, like other d3 selection functions, the current `datum`.
+// // Attach an event listener to the <g> that is called when any element within it is clicked.
+// // This function is passed the input event and, like other d3 selection functions, the current `datum`.
 
 // g.on("click", function(event, d) {
 //     const count = Math.min(+g.attr("counter") + 1, LIMIT); 
