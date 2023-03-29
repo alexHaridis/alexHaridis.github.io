@@ -5,13 +5,15 @@
         <script src="https://d3js.org/d3.v7.min.js"></script>
     </head>
     <body>
-        <div id="chart">
+        <div>
             <h2>Bar Chart w. Colors</h2>
         </div>
 
         <svg id="chart">
             <defs>
                 <linearGradient id="colorGradient">
+                    <stop offset="0%" stop-color="green" />
+                    <stop offset="100%" stop-color="red" />
                 </linearGradient>
             </defs>
             <g id="shapes"></g>

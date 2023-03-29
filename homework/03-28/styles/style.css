@@ -1,0 +1,15 @@
+body {
+    margin: 0;
+}
+
+#y .tick text {
+    fill: blue;
+}
+
+#x .tick text {
+    fill: red;
+}
+
+#scaleRect {
+    stroke: black;
+}
