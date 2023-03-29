@@ -7,9 +7,13 @@ const svg = d3.select("#chart")
     .attr("width", width)
     .attr("height", height);
 
+// Output: Promise object
+//          .then() callback function to actually turn it into JSON structure
 d3.json("data/films.json").then(function(results){
+
     // Once the data is loaded, everything happens inside the createHierarchy() function
     createHierarchy(results);
+
 });
 
 //
@@ -28,6 +32,8 @@ function createHierarchy(data) {
     );
 
     let root = d3.hierarchy(groups);
+
+    // console.log(root);
     
     /**
      * If you're passing the output of d3.rollup into d3.hierarchy, the accessor 

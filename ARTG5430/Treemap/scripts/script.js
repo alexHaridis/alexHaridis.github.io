@@ -1,6 +1,6 @@
 // Define the dimensions of the space that will contain the hierarhy
-const width = 840;
-const height = 440;
+const width = 900;
+const height = 500;
 
 const svg = d3.select("#chart")
     .append("svg")
@@ -23,11 +23,13 @@ function createTreemap(data) {
 
     let groups = d3.rollup(data, function(d) { return d.length; },
                                  function(d) { return d.Distributor; },
-                                 function(d) { return d.Genre; }
-                                //  function(d) { return d.Rating; }
+                                 function(d) { return d.Genre; },
+                                 function(d) { return d.Rating; }
     );
 
     let root = d3.hierarchy(groups);
+
+    console.log(root);
 
     root.sum(function(d) {
         return d[1];
@@ -52,7 +54,7 @@ function createTreemap(data) {
     nodes
         .append('rect')
         .attr('width', function(d) { return d.x1 - d.x0; })
-        .attr('height', function(d) { return d.y1 - d.y0; })
+        .attr('height', function(d) { return d.y1 - d.y0; });
 
     nodes
         .append('text')
@@ -62,6 +64,6 @@ function createTreemap(data) {
         .style("font-size", "14px")
         .text(function(d) {
             return d.data[0];
-        })
+        });
 
 }

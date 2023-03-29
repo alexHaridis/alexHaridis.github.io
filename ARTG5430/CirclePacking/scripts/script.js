@@ -29,6 +29,8 @@ function createCirclePack(data) {
 
     let root = d3.hierarchy(groups);
 
+    console.log(root);
+
     root.sum(function(d) {
         return d[1];
     });
@@ -54,11 +56,12 @@ function createCirclePack(data) {
 
     nodes
         .append('text')
-        .attr('dx', -10)
+        .attr('dx', 0)
         .attr('dy', 4)
         .style("text-anchor", "middle")
         .style("font-size", "14px")
         .text(function(d) {
+            // children are what d3 calls .descendants()
             return d.children === undefined ? d.data[0] : '';
         })
 
