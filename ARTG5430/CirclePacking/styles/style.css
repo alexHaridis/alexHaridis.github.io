@@ -1,0 +1,13 @@
+div {
+    text-align: center;
+  }
+  
+body {
+    font-family: Sans-Serif;
+}
+
+circle {
+    fill: indianred;
+    opacity: 0.3;
+    stroke: white;
+  }
