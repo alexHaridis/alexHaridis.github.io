@@ -7,7 +7,8 @@ const svg = d3.select("#chart")
     .attr("width", width)
     .attr("height", height);
 
-d3.json("data/films.json").then(function(results){ 
+d3.json("data/films.json").then(function(results){
+    // Once the data is loaded, everything happens inside the createHierarchy() function
     createHierarchy(results);
 });
 
