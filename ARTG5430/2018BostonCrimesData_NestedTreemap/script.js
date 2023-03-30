@@ -1,21 +1,28 @@
-d3.csv("data/2018-boston-crimes.csv").then(function(data) {
-    /*
-    BOSTON CRIME DATA from the BOSTON POLICE DEPARTMENT, 2018
+/**
+ * BEGIN BY DEFINING THE DIMENSIONS OF THE SVG and CREATING THE SVG CANVAS
+ * In this case, the visualization will cover the full client width and height
+ * 
+ * BOSTON CRIME DATA from the BOSTON POLICE DEPARTMENT, 2018
     Adapted from:
     https://www.kaggle.com/ankkur13/boston-crime-data/
-    */
-    console.log(data);
+*/
 
-    /*
-    BEGIN BY DEFINING THE DIMENSIONS OF THE SVG and CREATING THE SVG CANVAS
-    */
-    var width = document.querySelector("#chart").clientWidth;
-    var height = document.querySelector("#chart").clientHeight;
-    var svg = d3.select("#chart")
+const width = document.querySelector("#chart").clientWidth;
+const height = document.querySelector("#chart").clientHeight;
+
+let svg = d3.select("#chart")
         .append("svg")
         .attr("width", width)
         .attr("height", height);
 
+d3.csv("data/2018-boston-crimes.csv").then(function(results){
+    // Once the data is loaded, everything happens inside the createTreemap() function
+    createTreemap(results);
+});
+
+//
+
+function createTreemap (data) {
 
     /*
     TRANSFORM THE DATA
@@ -24,25 +31,49 @@ d3.csv("data/2018-boston-crimes.csv").then(function(data) {
     We can use the function d3.nest() to count the number of incidents of each unique offense code group:
     */
 
-    /*
-    VARIATION:
-    How does our treemap change if we have a multi-level nesting?
-    What happens if we rearrange the order of the .key() methods?
-    */
-    var nested = d3.nest()
-        .key(function(d) { return d.OFFENSE_CODE_GROUP; })
-        .key(function(d) { return d.DAY_OF_WEEK; })
-        .rollup(function(d) { return d.length;})
-        .entries(data)
-        .sort(function(a,b) { return b.value - a.value; });
+    let groups = d3.rollup(data, function(d) { return d.length; },
+                                 function(d) { return d.OFFENSE_CODE_GROUP; },
+                                 function(d) { return d.DAY_OF_WEEK; }
+    );
 
+    //
+    
+    /**
+     * Custom sorting functions. 
+     * 
+     * We sort a Map based on the sum of the values for each object it contains.
+     */
+    function sumValues(object) {
+        var sum = 0;
+        object.forEach(function(assaultFreq){
+            sum += assaultFreq;
+        })
+        return sum;
+    }
 
-    /*
-    After sorting the data above from largest to smallest, use array.slice() to grab only the first 10 entries
-    */
-    nested = nested.slice(0,10);
+    function sortFunction(a, b) {
+        // This sorts in descending order. Swap 1 with -1 for an ascending order.
+        return (sumValues(a[1]) < sumValues(b[1])) ? 1 : -1;
+    }
+    //
 
-    console.log(nested);
+    /**
+     * The following line of code contains several computations.
+     * 
+     * First, we create a new JavaScript Map using the groups we computed
+     * just above (here we use the spread (...) operator). We then define
+     * a custom sorting function called <sortFunction> which is going to 
+     * access each object in the Map and compute the sum of the frequencies
+     * for each offense code group. We sort all the entries of the new map
+     * in descending order using this sum.
+     * 
+     * And, after sorting the map from largest to smallest, we use the 
+     * array.slice() method to grab only the first 10 entries.
+     */
+    let sortedGroups = new Map([...groups.entries()]
+                                .sort(sortFunction)
+                                .slice(0, 10)
+    );
     
     /*
     CREATE A COLOR SCALE
@@ -67,17 +98,14 @@ d3.csv("data/2018-boston-crimes.csv").then(function(data) {
     We need to use d3.hierarchy() to turn our data set into a 'hierarchical' data structure;
     d3.treemap() REQUIRES a hierarchical structure to generate the treemap layout
     */  
-    var hierarchy = d3.hierarchy({values: nested}, function(d) { return d.values; })
-        .sum(function(d) { return d.value; });
 
-    /* 
-    GENERATE THE ROOT HIERARCHY
-    By passing in our hierarchical data structure into our treemap() function,
-    we generate the geometries required to create the treemap in the SVG canvas
-    */
-    var root = treemap(hierarchy);
-    console.log(root);
-    console.log(root.leaves());
+    let root = d3.hierarchy(sortedGroups);
+
+    root.sum(function(d) {
+        return d[1];
+    });
+
+    treemap(root);
 
     /*
     DRAW THE RECTANGLES FOR THE TREEMAP
@@ -105,57 +133,65 @@ d3.csv("data/2018-boston-crimes.csv").then(function(data) {
             .attr("height", function (d) { return d.y1 - d.y0; })
             .attr("stroke", "#FFFFFF")
             .attr("fill", function(d) {
-                return color(d.parent.data.key);
+                return color(d.parent.data[0]);
             });
 
     /*
     ADD LABELS
-    We can join the same root.leaves(), used to create the rectangles, to a new selection
-    to generate text labels for the rectangles
     */
 
     svg.selectAll("text")
-      .data(root.leaves())
+      .data(root.descendants())
       .enter()
       .append("text")
-        .attr("x", function(d){ return d.x0+10})    // +10 to adjust position (more right)
-        .attr("y", function(d){ return d.y0+20})    // +20 to adjust position (lower)
+        .attr("x", function(d){ return d.x0 + 10})    // +10 to adjust position (more right)
+        .attr("y", function(d){ return d.y0 + 20})    // +20 to adjust position (lower)
         .attr("font-size", "15px")
         .attr("fill", "white")
-        .text(function(d){ return d.data.key});
+        .text(function(d){ 
+            return d.children === undefined ? d.data[0] : '';
+        });
 
-    /* 
-    ADD TOOLTIP
-    The visualization gets too cluttered if we try to add text labels;
-    use a tooltip instead
-    */
+    /**
+     * ADD TOOLTIP
+     */
     var tooltip = d3.select("#chart")
         .append("div")
         .attr("class","tooltip");
 
-    rect.on("mouseover", function(d) {
+    /**
+     * NOTE: In D3 v7 you need to specify the callback function
+     * with two arguments: event, d. The first argument grabs the
+     * actual mouse event occuring once you hover over a circle, the
+     * second argument <d> is an actual datapoint from the hierarchical
+     * structure you created above.
+     */
+    rect.on("mouseover", function(event, d) {
 
         // Retrieve position based on the positions
         // generated by the treemap layout --
         // the same x0 and y0 properties used to compute
-        // the rectangles above!
+        // the rectangles above.
+        console.log(d);
         var x = d.x0;
-        var y = d.y0;
+        var y = d.y0 + 50;
 
         tooltip.style("visibility","visible")
-            .style("left", x+"px")
-            .style("top", y+"px")
-            .html(d.parent.data.key + "</br>" + d.data.key);
+            .style("left", x + "px")
+            .style("top", y + "px")
+            // The texts to display are accessed just like in all other
+            // demonstrations we saw.
+            .html(d.parent.data[0] + "</br>" + d.data[0]);
 
         d3.select(this)
             .attr("stroke","#000000");
 
     }).on("mouseout", function() {
-
+        // hide the tooltip
         tooltip.style("visibility","hidden");
-
+        // revert everything back to their default colors
         d3.select(this)
-            .attr("stroke","#FFFFFF");
+            .attr("stroke","white");
 
     });
-});
+}

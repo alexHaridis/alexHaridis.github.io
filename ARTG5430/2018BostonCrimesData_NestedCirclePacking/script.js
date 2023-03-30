@@ -31,18 +31,13 @@ function createCirclePacking (data) {
     We can use the function d3.nest() to count the number of incidents of each unique offense code group:
     */
 
-    /*
-    VARIATION:
-    How does our treemap change if we have a multi-level nesting?
-    */
-
     let groups = d3.rollup(data, function(d) { return d.length; },
                                  function(d) { return d.OFFENSE_CODE_GROUP; },
                                  function(d) { return d.DAY_OF_WEEK; }
-                                //  function(d) { return d.Rating; }
     );
 
     //
+    
     /**
      * Custom sorting functions. 
      * 
