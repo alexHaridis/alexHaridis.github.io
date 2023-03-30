@@ -29,7 +29,7 @@ function createCirclePack(data) {
 
     let root = d3.hierarchy(groups);
 
-    console.log(root);
+    // console.log(root);
 
     root.sum(function(d) {
         return d[1];
