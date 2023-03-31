@@ -25,9 +25,16 @@ function createCharts(data) {
     chartA(filtered_USAData, "USA");
     chartB(filtered_USAData, "USA");
 
+    /**
+     * It is important to have a single .on() event method but update
+     * BOTH charts when it is activated.
+     */
     d3.selectAll(".select").on("change", function() {
         var country = d3.selectAll(".select").property("value");
-        
+
+        // Here, alternate between two different filtered datasets based
+        // on what country is selected by the user. For each country, update
+        // both charts.
         if (country === "USA") {
             chartA.update(filtered_USAData, "USA");
             chartB.update(filtered_USAData, "USA");
@@ -39,6 +46,7 @@ function createCharts(data) {
 
 }
 
+// Scaffold for first chart to update
 function chartA(data, country) {
 
     update(data, country);
@@ -51,6 +59,7 @@ function chartA(data, country) {
 
 }
 
+// Scaffold for second chart to update
 function chartB(data, country) {
 
     update(data, country);
