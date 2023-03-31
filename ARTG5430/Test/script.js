@@ -1,161 +1,218 @@
-d3.csv("data/2018-boston-crimes.csv").then(function(data) {
-    /*
-    BOSTON CRIME DATA from the BOSTON POLICE DEPARTMENT, 2018
-    Adapted from:
-    https://www.kaggle.com/ankkur13/boston-crime-data/
-    */
-    console.log(data);
+const margin = {
+    top: 50, 
+    left: 100, 
+    right: 50, 
+    bottom: 100
+};
 
-    /*
-    BEGIN BY DEFINING THE DIMENSIONS OF THE SVG and CREATING THE SVG CANVAS
-    */
-    var width = document.querySelector("#chart").clientWidth;
-    var height = document.querySelector("#chart").clientHeight;
-    var svg = d3.select("#chart")
+d3.csv("./data/gapminder.csv").then(function(results) {
+    createCharts(results);
+});
+
+function createCharts(data) {
+
+    let filtered_USAData = data.filter(function(d) {
+        return d.country === "United States";
+    });
+
+    let filtered_CanadaData = data.filter(function(d) {
+        return d.country === "Canada";
+    });
+
+    /**
+     * Initialize the charts using a default value for country, e.g., "USA"
+     */
+    chartA(filtered_USAData, "USA");
+    chartB(filtered_USAData, "USA");
+
+    d3.selectAll(".select").on("change", function() {
+        var country = d3.selectAll(".select").property("value");
+        if (country === "USA") {
+            chartA.update(filtered_USAData, "USA");
+            chartB.update(filtered_USAData, "USA");
+        } else {
+            chartA.update(filtered_CanadaData, "Canada");
+            chartB.update(filtered_CanadaData, "Canada");
+        }
+    })
+
+}
+
+// Life Expectancy Chart: Years - X Axis, Life Exp - Y Axis
+function chartA(data, country) {
+
+    var width  = 800 - (margin.left + margin.right);
+    var height = 550 - (margin.top + margin.bottom);
+
+    const svg = d3.select("#charts")
         .append("svg")
+        .attr("class", "lifeExpChart")
         .attr("width", width)
         .attr("height", height);
 
+    function assignColor(country) {
+        // If country is "Canada"
+        if (country === "Canada") {
+            return "#FFBD00";
+        }
+        // Otherwise, default is "USA"
+        return "#FF0054";
+    }
 
-    /*
-    TRANSFORM THE DATA
-    We want to eventually create a treemap that shows the relative proportion of each offense code group
-    for the top 10 (by frequency) offense code groups in 2018.
-    We can use the function d3.nest() to count the number of incidents of each unique offense code group:
-    */
+    const lifeExp = {
+        min: d3.min(data, function(d) { return +d.lifeExp; }),
+        max: d3.max(data, function(d) { return +d.lifeExp; })
+    };
 
-    /*
-    VARIATION:
-    How does our treemap change if we have a multi-level nesting?
-    What happens if we rearrange the order of the .key() methods?
-    */
-    var nested = d3.nest()
-        .key(function(d) { return d.OFFENSE_CODE_GROUP; })
-        .key(function(d) { return d.DAY_OF_WEEK; })
-        .rollup(function(d) { return d.length;})
-        .entries(data)
-        .sort(function(a,b) { return b.value - a.value; });
+    const xScale = d3.scaleBand()
+        .domain(["1952","1957","1962","1967","1972","1977","1982","1987","1992","1997","2002","2007"])
+        .range([margin.left, width-margin.right])
+        .padding(0.5);
 
+    const yScale = d3.scaleLinear()
+        .domain([50, lifeExp.max])
+        .range([height-margin.bottom, margin.top]);
 
-    /*
-    After sorting the data above from largest to smallest, use array.slice() to grab only the first 10 entries
-    */
-    nested = nested.slice(0,10);
+    const xAxis = svg.append("g")
+        .attr("class","axis--x")
+        .attr("transform", `translate(0,${height-margin.bottom})`)
+        .call(d3.axisBottom().scale(xScale));
 
-    console.log(nested);
-    
-    /*
-    CREATE A COLOR SCALE
-    The D3 module d3-scale-chromatic features several different color palettes we can use.
-    How do these differ in their usage?
-    What kinds of color palettes are best for these data?
-    */
-    var color = d3.scaleOrdinal(d3.schemeDark2);
-    // var color = d3.scaleOrdinal(d3.schemeBlues[5]);
-    // var color = d3.scaleOrdinal(d3.schemeSpectral[9]);
+    const yAxis = svg.append("g")
+        .attr("class","axis--y")
+        .attr("transform", `translate(${margin.left},0)`)
+        .call(d3.axisLeft().scale(yScale));
 
-    /*
-    CREATE THE TREEMAP LAYOUT GENERATOR
-    */
-    
-    var treemap = d3.treemap()
-        .size([width, height])
-        .padding(1);
-    
-    /*
-    CREATE THE HIERARCHY
-    We need to use d3.hierarchy() to turn our data set into a 'hierarchical' data structure;
-    d3.treemap() REQUIRES a hierarchical structure to generate the treemap layout
-    */  
-    var hierarchy = d3.hierarchy({values: nested}, function(d) { return d.values; })
-        .sum(function(d) { return d.value; });
+    update(data, country);
 
-    /* 
-    GENERATE THE ROOT HIERARCHY
-    By passing in our hierarchical data structure into our treemap() function,
-    we generate the geometries required to create the treemap in the SVG canvas
-    */
-    var root = treemap(hierarchy);
-    console.log(root);
-    console.log(root.leaves());
+    function update(data, country) {
 
-    /*
-    DRAW THE RECTANGLES FOR THE TREEMAP
-    We will use our `root` structure, from above, to draw the rectangles for the treemap;
-    we will do this by performing a data join with the array of nodes returned by root.leaves()
-    (What does this return? Inspect the structure in the JS console)
-    */
+        var bars = svg.selectAll(".lifeExpBars")
+                    .data(data, function(d){
+                        return d.country;
+                    });
 
+        bars.join(
+            function(enter) {
+                return enter.append("rect")
+                            .attr("class", "lifeExpBars")
+                            .attr("x", function(d) { return xScale(d.year); })
+                            .attr("y", function(d) { return yScale(d.lifeExp); })
+                            .attr("width", xScale.bandwidth())
+                            .attr("height", 0)
+                            .transition().duration(700)
+                            .attr("height", function(d) { return height - (margin.bottom + yScale(d.lifeExp)); })
+                            .attr("fill", assignColor(country));
+            },
+            function(update){
+                return update.transition().duration(700);
+            },
+            function(exit){
+                return exit.transition().duration(700)
+                        .attr("height", "0")
+                        .remove();
+            }
+        );
 
-    /*
-    VARIATION:
-    What if we use the multi-level nesting from above to generate our treemap?
-    How would we color the rectangles according to their parent category
-    (i.e., each day of week rectangle is colored according to the offense code category 
-    to which it belongs)?
-    */
-    var rect = svg
-        .selectAll("rect")
-        .data(root.leaves())
-        .enter()
-        .append("rect")
-            .attr("x", function (d) { return d.x0; })
-            .attr("y", function (d) { return d.y0; })
-            .attr("width", function (d) { return d.x1 - d.x0; })
-            .attr("height", function (d) { return d.y1 - d.y0; })
-            .attr("stroke", "#FFFFFF")
-            .attr("fill", function(d) {
-                return color(d.parent.data.key);
-            });
+    }
 
-    /*
-    ADD LABELS
-    We can join the same root.leaves(), used to create the rectangles, to a new selection
-    to generate text labels for the rectangles
-    */
+    chartA.update = update;
 
-    svg.selectAll("text")
-      .data(root.leaves())
-      .enter()
-      .append("text")
-        .attr("x", function(d){ return d.x0+10})    // +10 to adjust position (more right)
-        .attr("y", function(d){ return d.y0+20})    // +20 to adjust position (lower)
-        .attr("font-size", "15px")
-        .attr("fill", "white")
-        .text(function(d){ return d.data.key});
+}
 
-    /* 
-    ADD TOOLTIP
-    The visualization gets too cluttered if we try to add text labels;
-    use a tooltip instead
-    */
-    var tooltip = d3.select("#chart")
-        .append("div")
-        .attr("class","tooltip");
+function chartB(data, country) {
 
-    rect.on("mouseover", function(d) {
+    var width  = 880 - (margin.left + margin.right);
+    var height = 550 - (margin.top + margin.bottom);
 
-        // Retrieve position based on the positions
-        // generated by the treemap layout --
-        // the same x0 and y0 properties used to compute
-        // the rectangles above!
-        var x = d.x0;
-        var y = d.y0;
+    const svg = d3.select("#charts")
+                .append("svg")
+                .attr("class", "lifeExpChart")
+                .attr("width", width)
+                .attr("height", height);
 
-        tooltip.style("visibility","visible")
-            .style("left", x+"px")
-            .style("top", y+"px")
-            .html(d.parent.data.key + "</br>" + d.data.key);
+    function assignColor(country) {
+        // If country is "Canada"
+        if (country === "Canada") {
+            return "#FFBD00";
+        }
+        // Otherwise, default is "USA"
+        return "#FF0054";
+    }
 
-        d3.select(this)
-            .attr("stroke","#000000");
+    const pop = {
+        min: d3.min(data, function(d) { return +d.pop; }),
+        max: d3.max(data, function(d) { return +d.pop; })
+    };
 
-    }).on("mouseout", function() {
+    const xScale = d3.scaleBand()
+        .domain(["1952","1957","1962","1967","1972","1977","1982","1987","1992","1997","2002","2007"])
+        .range([margin.left, width-margin.right])
+        .padding(0.5);
 
-        tooltip.style("visibility","hidden");
+    var yScale = d3.scaleLinear()
+        .domain([pop.min, pop.max]).nice()
+        .range([height-margin.bottom, margin.top]);
 
-        d3.select(this)
-            .attr("stroke","#FFFFFF");
+    const xAxis = svg.append("g")
+    .attr("class","axis--x")
+    .attr("transform", `translate(0,${height-margin.bottom})`)
+    .call(d3.axisBottom().scale(xScale));
 
-    });
-});
+    const yAxis = svg.append("g")
+        .attr("class","axis--y")
+        .attr("transform", `translate(${margin.left},0)`)
+        .call(d3.axisLeft().scale(yScale));
+
+    update(data, country);
+
+    function update(data, country) {
+
+        /**
+         * Update the left axis of the second bar chart to reflect
+         * a different population range (because the country is changed)
+         */
+        pop.min = d3.min(data, function(d) { return +d.pop; });
+        pop.max = d3.max(data, function(d) { return +d.pop; });
+
+        yScale = d3.scaleLinear()
+            .domain([pop.min, pop.max]).nice()
+            .range([height-margin.bottom, margin.top]);
+
+        yAxis.call(d3.axisLeft().scale(yScale));
+
+        /**
+         * Update the rectangles based on the new data
+         */
+        var bars = svg.selectAll(".secondBars")
+                    .data(data, function(d){
+                        return d.country;
+                    });
+
+        bars.join(
+            function(enter) {
+                return enter.append("rect")
+                            .attr("class", "secondBars")
+                            .attr("x", function(d) { return xScale(d.year); })
+                            .attr("y", function(d) { return yScale(d.pop); })
+                            .attr("width", xScale.bandwidth())
+                            .attr("height", 0)
+                            .transition().duration(700)
+                            .attr("height", function(d) { return height - (margin.bottom + yScale(d.pop)); })
+                            .attr("fill", assignColor(country));
+            },
+            function(update){
+                return update.transition().duration(700);
+            },
+            function(exit){
+                return exit.transition().duration(700)
+                        .attr("height", "0")
+                        .remove();
+            }
+        )
+        
+    }
+
+    chartB.update = update;
+
+}
