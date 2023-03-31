@@ -22,6 +22,9 @@ function canvasApp() {
         const imgData = ctx1.getImageData(0, 0, width, height);
         const dataLength = imgData.data.length;
 
+        /**
+         * Greyscale Conversion
+         */
         let greyScales = [];
         for (let i = 0; i < dataLength; i += 4) {
             /**
@@ -35,20 +38,20 @@ function canvasApp() {
              * 
              * Alternatively, see the following that mimics the p5.js code
              */
-            const greyscale = Math.round(imgData.data[i]*0.222 + imgData.data[i + 1]*0.707 + imgData.data[i + 2]*0.071);
+            var greyscale = Math.round(imgData.data[i]*0.222 + imgData.data[i + 1]*0.707 + imgData.data[i + 2]*0.071);
             greyScales.push(greyscale);
         }
 
         // Map the greyscale values that are between 0...255 into a new range 0...6
         // and round the result to obtain integers.
-        const greyIndexes = greyScales.map(function(x) {
+        var gradientToIndex = greyScales.map(function(x) {
             return Math.round(mapRange(x, 0, 255, 0, 6));
         });
 
         for (let gridX = 0; gridX < width; gridX += scanStep) {
             for (let gridY = 0; gridY < height; gridY += scanStep) {
                 /**
-                 * Because greyIndexes is a one-dimensional array and our image is a
+                 * Because gradientToIndex is a one-dimensional array and our image is a
                  * two-dimensional array, we must create a one-dimensional index using
                  * two-dimensional image coordinates to retrieve the greyscale value at
                  * those image coordinates.
@@ -56,10 +59,11 @@ function canvasApp() {
                 var index = gridX + gridY*width;
 
                 // Grab the svg shape based on the greyscale index
-                var svgID = greyIndexes[index];
+                var svgID = gradientToIndex[index];
 
-                // Make sure the svgID is between 0...5
-                if (svgID < 6) {
+                // Make sure the svgID is between 0...numOfSVGs (i.e., the length of the array
+                // that holds our svg shapes; otherwise, you'll get a type error in the console)
+                if (svgID < numOfSVGs) {
                     // Plot the svg shape at coordinates [gridX, gridY] with a specified scale
                     var svgToPlot = arraySvgs[svgID];
                     ctx2.drawImage(svgToPlot, gridX, gridY, SCL, SCL);
@@ -94,6 +98,7 @@ function canvasApp() {
      * 2D rendering context for the drawing surface of a <canvas> element. It is used 
      * for drawing shapes, text, images, and other objects.
      */
+
     const ctx1 = canvasOriginal.getContext("2d");
     const ctx2 = canvasChanged.getContext("2d");
 
@@ -126,9 +131,13 @@ function canvasApp() {
     // Load all svg shapes in an array so we can index them one by one
     var arraySvgs = [svg1, svg2, svg3, svg4, svg5, svg6];
 
+    // Store the length of the above array in a variable to be used during canvas drawing above
+    var numOfSVGs = arraySvgs.length;
+
     /**
      * OPTIONAL SCALING FACTOR FOR PLOTTING YOUR SVG SHAPES SMALLER / LARGER
      */
+
     let SCL = 10;
 
     /**
@@ -138,8 +147,9 @@ function canvasApp() {
      * 
      * EXPERIMENT WITH DIFFERENT INTEGERS AND OBSERVE THE RESULTS.
      * 
-     * Maximum Resolution: 1
+     * To Achieve Maximum Resolution, assign scanStep = 1.
      */
+
     let scanStep = 10;
 
     /**
