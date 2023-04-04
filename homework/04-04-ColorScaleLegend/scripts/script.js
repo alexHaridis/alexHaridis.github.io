@@ -139,8 +139,6 @@ function createChart(data) {
         return d3.hsl(t * 360, 1, 0.5) + "";
       }
 
-    // d3.interpolateViridis
-
     var colorScale = d3.scaleSequential(d3.interpolateViridis)
             .domain([colorRangeOffset, lifeExp.max]);
 
