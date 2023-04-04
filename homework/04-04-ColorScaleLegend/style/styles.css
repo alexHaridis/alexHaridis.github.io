@@ -51,4 +51,16 @@ https://developer.mozilla.org/en-US/docs/Web/CSS/length
 .axis {
   font-size: 10pt;
 }
+
+#legend {
+  width: 20%;
+  float: right;
+}
+
+.legend--title {
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-size: 14pt;
+  text-decoration: underline;
+  font-weight: bold;
+}
   

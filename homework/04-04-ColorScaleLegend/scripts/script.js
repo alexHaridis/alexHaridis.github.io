@@ -76,7 +76,7 @@ function createChart(data) {
      * 
      *  You can use console.log(data) to see what other possible country names you can use.
      * 
-     *  The variable `countryString` is also used down below for plotting the countrys on the chart.
+     * The variable `countryString` is also used down below for plotting the countrys on the chart.
      */
     let countryString = "United States"
 
@@ -138,6 +138,8 @@ function createChart(data) {
     function rainbowColors(t) {
         return d3.hsl(t * 360, 1, 0.5) + "";
       }
+
+    // d3.interpolateViridis
 
     var colorScale = d3.scaleSequential(d3.interpolateViridis)
             .domain([colorRangeOffset, lifeExp.max]);
@@ -239,5 +241,124 @@ function createChart(data) {
         .attr("x", width/2)
         .attr("y", margin.top)
         .text(countryString);
+
+    /** 
+     *  9. ADDING A LEGEND
+     *
+     * When creating visualizations with D3, we don't automatically
+     * get legends for encodings like color and size. We have to
+     * make these ourselves.
+     *
+     * Making a legend with D3 and SVG requires a mixture of
+     * plain JavaScript, drawing basic SVG shapes, and some
+     * creativity with CSS. The following demonstration is one
+     * example of one approach to adding legends for encodings
+     * in a visualization.
+     * 
+     * NOTE: There is a lot of clutter when it comes to handling
+     *       x and y positions of legend elements including text.
+     *       The best way to understand all the different variables
+     *       and values used below, especially for positioning, is to
+     *       play with the different values available and observe results.
+    */
+
+    const legendWH = 30; // square shape: width = height
+    const legendMargin = 40;
+    const legendSpacing = 90;
+
+    const colorLegend = d3.select("#legend")
+        // .append("svg")
+        .attr("width", legendWH)
+        .attr("height", 150);
+
+    colorLegend.append("text")
+        .attr("class", "legend--title")
+        .attr("x", width/2 + 7*legendWH)
+        .attr("y", height + 10)
+        .text("Legend");
+
+    /**
+     * Next, we iterate over each of the values for which
+     * we want to display a legend, using ARRAY.forEach().
+     * 
+     * The method .map() returns an array.
+     *
+     * Here, we'll create a color legend that shows the
+     * exact life expectancy each color bar represents.
+     * 
+     * NOTE: In this particular case, the data values are
+     *       sorted. In other cases, you may need to sort
+     *       the resulting array using.
+     */
+
+    var legendData = filtered_data.map(function(d) {
+        return d.lifeExp;
+    });
+
+    // Convert the one-dimensional array above into a two-dimensional one
+    // that consists of 2 rows and 6 columns
+    //               12 entries -> 2 x 6 entries
+    var legend2DArray = [
+        [legendData[0], legendData[1], legendData[2], legendData[3], legendData[4], legendData[5]],
+        [legendData[6], legendData[7], legendData[8], legendData[9], legendData[10], legendData[11]]
+    ];
+
+    // These variables are for positioning the legend
+    let legendPositionX = width/2;
+    let legendPositionY = height + 40;
+
+    var legendRowA = colorLegend.selectAll(".legendRects--A")
+            .data(legend2DArray[0])
+            .enter()
+                .append("rect")
+                .attr("class", "legendRects--A")
+                .attr("x", function(d, i){
+                    return legendPositionX + i * legendSpacing;
+                })
+                .attr("y", legendPositionY)
+                .attr("fill", colorScale)
+                .attr("width", legendWH)
+                .attr("height", legendWH);
+
+    var legendRowB = colorLegend.selectAll(".legendRects--B")
+            .data(legend2DArray[1])
+            .enter()
+                .append("rect")
+                .attr("class", "legendRects--B")
+                .attr("x", function(d, i){
+                    return legendPositionX + i * legendSpacing;
+                })
+                .attr("y", legendPositionY + legendMargin)
+                .attr("fill", colorScale)
+                .attr("width", legendWH)
+                .attr("height", legendWH);
+
+    var legendTextRowA = colorLegend.selectAll(".legendRowA--label")
+            .data(legend2DArray[0])
+            .enter()
+                .append("text")
+                .attr("class", "legendRowA--label")
+                .style("text-anchor", "start")
+                .style("dominant-baseline", "middle")
+                .attr("x", function(d, i){
+                    // this expression looks weird, but experiment with the values to observe results
+                    return legendPositionX + i * legendSpacing + legendWH + 3;
+                })
+                .attr("y", legendPositionY + legendWH/2)
+                .text(d => d);
+    
+    var legendTextRowB = colorLegend.selectAll(".legendRowB--label")
+            .data(legend2DArray[1])
+            .enter()
+                .append("text")
+                .attr("class", "legendRowB--label")
+                .style("text-anchor", "start")
+                .style("dominant-baseline", "middle")
+                .attr("x", function(d, i){
+                    // this expression looks weird, but experiment with the values to observe results
+                    return legendPositionX + i * legendSpacing + legendWH + 3;
+                })
+                .attr("y", legendPositionY + legendMargin + legendWH/2)
+                .text(d => d);
 
 }

@@ -29,7 +29,7 @@ function parseCsv(d) {
 
 d3.csv("./data/2021-youtube-trending-videos_entertainment-gaming-music.csv", parseCsv).then(function(data) {
 
-    console.log(data);
+    // console.log(data);
 
     /*
     DEFINE DIMENSIONS OF SVG + CREATE SVG CANVAS
@@ -283,7 +283,6 @@ d3.csv("./data/2021-youtube-trending-videos_entertainment-gaming-music.csv", par
     categories.forEach(function(category, i) {
 
         /*
-
         Within each loop of the .forEach(), we will
             - Draw a circle on the new legend SVG canvas,
                 giving it the corresponding fill color
