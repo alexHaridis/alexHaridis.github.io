@@ -45,7 +45,7 @@ scale.select("#scaleRect")
 
 const fileName = "./data/gapminder.csv";
 
-Promise.all([d3.csv(fileName)]).then(function(results){
+Promise.all( [d3.csv(fileName)] ).then(function( results ){
     // Once data are loaded successfully, call the function that creates and displays the chart
     createChart(results[0]);
 });
@@ -139,7 +139,7 @@ function createChart(data) {
         return d3.hsl(t * 360, 1, 0.5) + "";
       }
 
-    var colorScale = d3.scaleSequential(d3.interpolateViridis)
+    var colorScale = d3.scaleSequential(rainbowColors)
             .domain([colorRangeOffset, lifeExp.max]);
 
     // Note: We define this gradient stops range as [0, 1.1] in order to obtain the values:
@@ -165,9 +165,6 @@ function createChart(data) {
                     return d * 100 + "%";
                 })
                 .attr("stop-color", function(d) {
-                    // We are using the scaling formula: 
-                    //     x0 + t * (x1 - x0)
-                    // which is otherwise called linear interpolation
                     return colorScale( lerp(d, colorRangeOffset, lifeExp.max) );
                 });
 

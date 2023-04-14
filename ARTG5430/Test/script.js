@@ -25,16 +25,26 @@ function createCharts(data) {
     chartA(filtered_USAData, "USA");
     chartB(filtered_USAData, "USA");
 
-    d3.selectAll(".select").on("change", function() {
-        var country = d3.selectAll(".select").property("value");
-        if (country === "USA") {
-            chartA.update(filtered_USAData, "USA");
-            chartB.update(filtered_USAData, "USA");
-        } else {
-            chartA.update(filtered_CanadaData, "Canada");
-            chartB.update(filtered_CanadaData, "Canada");
-        }
-    })
+    // d3.selectAll(".select").on("change", function() {
+    //     var country = d3.selectAll(".select").property("value");
+    //     if (country === "USA") {
+    //         chartA.update(filtered_USAData, "USA");
+    //         chartB.update(filtered_USAData, "USA");
+    //     } else {
+    //         chartA.update(filtered_CanadaData, "Canada");
+    //         chartB.update(filtered_CanadaData, "Canada");
+    //     }
+    // })
+
+    document.querySelector('#USA--btn').addEventListener('click', function(){ 
+        chartA.update(filtered_USAData, "USA"); 
+        chartB.update(filtered_USAData, "USA");
+    });
+
+    document.querySelector('#Canada--btn').addEventListener('click', function(){ 
+        chartA.update(filtered_CanadaData, "Canada");
+        chartB.update(filtered_CanadaData, "Canada");
+    });
 
 }
 

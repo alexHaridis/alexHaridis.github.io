@@ -20,6 +20,8 @@ const svg = d3.select("#viz")
 
 const map = svg.select("#map");
 
+// console.log(svg.attr("width"), svg.attr("height"))
+
 // 3. Because we are creating a map, we also want to add some kind of "ocean". This is going
 // to be just a rectangle that has an ID called #ocean. See the index.html
 

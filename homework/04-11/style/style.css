@@ -1,0 +1,24 @@
+div {
+  text-align: center;
+}
+
+body {
+  font-family: Sans-Serif;
+}
+
+line {
+  fill: none;
+  stroke: black;
+  stroke-width: 4;
+}
+
+circle {
+  fill: forestgreen;
+  stroke: none;
+  opacity: 0.4;
+}
+
+text {
+	font-size: 12px;
+	text-anchor: middle;
+}

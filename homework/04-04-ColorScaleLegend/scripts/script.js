@@ -34,6 +34,7 @@ const svg = d3.select("#chart")
 var scale = svg.select("#scale")
         .attr("transform", "translate(" + margin.left + ", " + height + ")");
 
+
 scale.select("#scaleRect")
     .attr("width", 278)
     .attr("height", 18);
@@ -78,7 +79,7 @@ function createChart(data) {
      * 
      * The variable `countryString` is also used down below for plotting the countrys on the chart.
      */
-    let countryString = "United States"
+    let countryString = "Italy"
 
     let filtered_data = data.filter(function(d) {
 
@@ -308,7 +309,7 @@ function createChart(data) {
     var legendRowA = colorLegend.selectAll(".legendRects--A")
             .data(legend2DArray[0])
             .enter()
-                .append("rect")
+            .append("rect")
                 .attr("class", "legendRects--A")
                 .attr("x", function(d, i){
                     return legendPositionX + i * legendSpacing;
@@ -336,11 +337,11 @@ function createChart(data) {
             .enter()
                 .append("text")
                 .attr("class", "legendRowA--label")
-                .style("text-anchor", "start")
+                // .style("text-anchor", "start")
                 .style("dominant-baseline", "middle")
                 .attr("x", function(d, i){
                     // this expression looks weird, but experiment with the values to observe results
-                    return legendPositionX + i * legendSpacing + legendWH + 3;
+                    return legendPositionX + i * legendSpacing + legendWH + 4;
                 })
                 .attr("y", legendPositionY + legendWH/2)
                 .text(d => d);
