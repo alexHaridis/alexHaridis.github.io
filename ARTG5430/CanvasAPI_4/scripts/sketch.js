@@ -76,9 +76,9 @@ function canvasApp() {
     // DIMENSIONS OF CANVAS
 
     // const width = window.innerWidth;
-    let width = 400;
+    let width = 600;
     // const height = window.innerHeight;
-    let height = 400;
+    let height = 600;
 
     const canvasOriginal = document.getElementById("canvas-original");
     const canvasChanged = document.getElementById("canvas-change");
@@ -106,7 +106,7 @@ function canvasApp() {
 
     const imgOriginal = new Image();
     // This string is the path to the image we want to use as a background
-    imgOriginal.src = "images/img1.jpg";
+    imgOriginal.src = "images/crop1.jpg";
 
     // Display the original background image in the left canvas
     ctx1.drawImage(imgOriginal, 0, 0, width, height);
@@ -138,7 +138,7 @@ function canvasApp() {
      * OPTIONAL SCALING FACTOR FOR PLOTTING YOUR SVG SHAPES SMALLER / LARGER
      */
 
-    let SCL = 10;
+    let SCL = 8;
 
     /**
      * OPTIONAL DEFINE AN IMAGE SCANNING STEP TO INCREASE OR DECREASE THE
@@ -150,7 +150,7 @@ function canvasApp() {
      * To Achieve Maximum Resolution, assign scanStep = 1.
      */
 
-    let scanStep = 10;
+    let scanStep = 5;
 
     /**
      * The following function maps a number that falls between a range [A, B]
@@ -164,6 +164,7 @@ function canvasApp() {
      * @param {*} D The second number in the second range
      * @returns A mapping of the number x into the range [C, D]
      */
+
     function mapRange(x, A, B, C, D) {
         return (x - A) * (D - C) / (B - A) + C;
     }
